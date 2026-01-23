@@ -2,15 +2,6 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
-  init = function()
-    vim.api.nvim_create_autocmd('VimEnter', {
-      callback = function()
-        if vim.fn.argc() == 0 and vim.fn.line2byte(vim.fn.line '$') == -1 then
-          Snacks.dashboard()
-        end
-      end,
-    })
-  end,
   opts = {
     lazygit = {
       enabled = true,

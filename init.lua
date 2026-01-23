@@ -199,6 +199,11 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- Window splitting
+vim.keymap.set('n', '<leader>-', '<C-w>s', { desc = 'Split window horizontal' })
+vim.keymap.set('n', '<leader>|', '<C-w>v', { desc = 'Split window vertical' })
+vim.keymap.set('n', '<leader>wd', '<C-w>c', { desc = '[W]indow [D]elete' })
+
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
@@ -346,6 +351,8 @@ require('lazy').setup({
       spec = {
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
+        { '<leader>g', group = '[G]it' },
+        { '<leader>w', group = '[W]indows' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
@@ -902,45 +909,16 @@ require('lazy').setup({
         dark_variant = 'main', -- main, moon, or dawn
         dim_inactive_windows = false,
         extend_background_behind_borders = true,
-
-        -- enable = {
-        --   terminal = true,
-        --   legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
-        --   migrations = true, -- Handle deprecated options automatically
-        -- },
-
         styles = {
           bold = false, -- Disabled bold
           italic = false, -- Disabled italic
           -- transparency = true, -- Enabled transparency
         },
-
-        palette = {
-          -- Override the builtin palette per variant
-          -- moon = {
-          --     base = '#18191a',
-          --     overlay = '#363738',
-          -- },
-        },
-
-        -- NOTE: Highlight groups are extended (merged) by default. Disable this
-        -- per group via `inherit = false`
+        palette = {},
         highlight_groups = {
           Comment = { fg = '#524f67' },
           ['@comment'] = { fg = '#524f67' },
         },
-
-        before_highlight = function(group, highlight, palette)
-          -- Disable all undercurls
-          -- if highlight.undercurl then
-          --     highlight.undercurl = false
-          -- end
-          --
-          -- Change palette colour
-          -- if highlight.fg == palette.pine then
-          --     highlight.fg = palette.foam
-          -- end
-        end,
       }
 
       vim.cmd.colorscheme 'rose-pine'
@@ -1014,18 +992,18 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!

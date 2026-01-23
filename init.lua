@@ -158,6 +158,9 @@ vim.o.inccommand = 'split'
 -- Show which line your cursor is on
 vim.o.cursorline = true
 
+-- Disable line wrapping
+vim.o.wrap = false
+
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.o.scrolloff = 10
 
@@ -637,30 +640,24 @@ require('lazy').setup({
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
         severity_sort = true,
-        float = { border = 'rounded', source = 'if_many' },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
+        float = false,
+        virtual_text = false,
+        underline = true,
+        signs = {
           text = {
-            [vim.diagnostic.severity.ERROR] = '󰅚 ',
-            [vim.diagnostic.severity.WARN] = '󰀪 ',
-            [vim.diagnostic.severity.INFO] = '󰋽 ',
-            [vim.diagnostic.severity.HINT] = '󰌶 ',
+            [vim.diagnostic.severity.ERROR] = '●',
+            [vim.diagnostic.severity.WARN] = '●',
+            [vim.diagnostic.severity.INFO] = '●',
+            [vim.diagnostic.severity.HINT] = '●',
           },
-        } or {},
-        virtual_text = {
-          source = 'if_many',
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
         },
       }
+
+      -- Set diagnostic underlines to use undercurl (squiggly lines)
+      vim.api.nvim_set_hl(0, 'DiagnosticUnderlineError', { undercurl = true, sp = '#db4b4b' })
+      vim.api.nvim_set_hl(0, 'DiagnosticUnderlineWarn', { undercurl = true, sp = '#e0af68' })
+      vim.api.nvim_set_hl(0, 'DiagnosticUnderlineInfo', { undercurl = true, sp = '#0db9d7' })
+      vim.api.nvim_set_hl(0, 'DiagnosticUnderlineHint', { undercurl = true, sp = '#1abc9c' })
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
@@ -953,6 +950,17 @@ require('lazy').setup({
       -- set use_icons to true if you have a Nerd Font
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
+      require('mini.files').setup()
+      vim.keymap.set('n', '<leader>cc', MiniFiles.open, { desc = 'Open mini.files' })
+      vim.keymap.set('n', '<leader>cf', function()
+        local buf_name = vim.api.nvim_buf_get_name(0)
+        local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
+        MiniFiles.open(path)
+        MiniFiles.reveal_cwd()
+      end, { desc = 'Open Mini Files' })
+
+      require('mini.icons').setup()
+
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN
@@ -993,7 +1001,7 @@ require('lazy').setup({
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
   require 'kickstart.plugins.debug',
-  require 'kickstart.plugins.indent_line',
+  -- require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.lint',
   require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',

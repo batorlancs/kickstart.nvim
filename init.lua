@@ -736,21 +736,21 @@ require('lazy').setup({
       },
 
       completion = {
-        -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
+        list = {
+          selection = { preselect = true, auto_insert = true },
+        },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 50,
           window = {
             border = 'rounded',
-            max_width = 60,
-            max_height = 12,
+            winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
           },
         },
         menu = {
-          draw = {
-            columns = { { 'kind_icon' }, { 'label', gap = 1 } },
-          },
+          border = 'rounded',
+          draw = { gap = 2 },
+          winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
         },
       },
 
@@ -815,10 +815,10 @@ require('lazy').setup({
           -- Python docstrings: same color as comments
           ['@string.documentation.python'] = { fg = '#524f67' },
           -- Blink.cmp documentation window
-          BlinkCmpDoc = { bg = '#1F1D2E' },
-          BlinkCmpDocBorder = { bg = '#1F1D2E', fg = '#1F1D2E' },
-          BlinkCmpMenu = { bg = '#1F1D2E' },
-          BlinkCmpMenuBorder = { bg = '#1F1D2E', fg = '#1F1D2E' },
+          BlinkCmpDoc = { bg = '#2A2740' },
+          BlinkCmpDocBorder = { bg = '#2A2740', fg = '#2A2740' },
+          BlinkCmpMenu = { bg = '#2A2740' },
+          BlinkCmpMenuBorder = { bg = '#2A2740', fg = '#2A2740' },
         },
       }
 

@@ -881,6 +881,23 @@ require('lazy').setup({
 
       require('mini.icons').setup()
 
+      -- Mini.diff for git diff visualization
+      require('mini.diff').setup {
+        view = {
+          style = 'sign',
+          signs = {
+            add = '▎',
+            change = '▎',
+            delete = '',
+          },
+        },
+      }
+
+      -- Mini.diff keybinding
+      vim.keymap.set('n', '<leader>go', function()
+        require('mini.diff').toggle_overlay(0)
+      end, { desc = 'Toggle mini.diff overlay' })
+
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN

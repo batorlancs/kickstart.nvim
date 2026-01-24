@@ -20,8 +20,12 @@ return {
       },
     },
     cli = {
-      -- Disable CLI features if you don't need them
-      enabled = false,
+      -- Enable CLI features for opencode integration
+      enabled = true,
+      mux = {
+        enabled = true,
+        backend = 'tmux', -- or "zellij"
+      },
     },
   },
   keys = {
@@ -51,9 +55,9 @@ return {
     {
       '<leader>aa',
       function()
-        require('sidekick.cli').toggle { name = 'opencode', focus = true }
+        require('sidekick.cli').toggle()
       end,
-      desc = 'Opencode',
+      desc = 'Sidekick Toggle CLI',
     },
     {
       '<leader>at',

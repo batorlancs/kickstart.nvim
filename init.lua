@@ -744,13 +744,13 @@ require('lazy').setup({
           auto_show_delay_ms = 50,
           window = {
             border = 'rounded',
-            winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
+            winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
           },
         },
         menu = {
           border = 'rounded',
           draw = { gap = 2 },
-          winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
+          winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
         },
       },
 
@@ -815,9 +815,9 @@ require('lazy').setup({
           -- Python docstrings: same color as comments
           ['@string.documentation.python'] = { fg = '#524f67' },
           -- Blink.cmp documentation window
-          BlinkCmpDoc = { bg = '#2A2740' },
+          BlinkCmpDoc = { bg = '#1F1D2E' },
           BlinkCmpDocBorder = { bg = '#2A2740', fg = '#2A2740' },
-          BlinkCmpMenu = { bg = '#2A2740' },
+          BlinkCmpMenu = { bg = '#1F1D2E' },
           BlinkCmpMenuBorder = { bg = '#2A2740', fg = '#2A2740' },
         },
       }

@@ -366,6 +366,7 @@ require('lazy').setup({
         { '<leader>w', group = '[W]indows' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>f', group = '[F]ind' },
+        { '<leader>n', group = '[N]ES (Next Edit)' },
       },
     },
   },

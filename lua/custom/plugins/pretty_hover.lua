@@ -13,6 +13,7 @@ return {
     -- Define dim highlight groups for hover window
     vim.api.nvim_set_hl(0, 'PrettyHoverNormal', { fg = '#6e6a86' }) -- Dim text color
     vim.api.nvim_set_hl(0, 'PrettyHoverBorder', { fg = '#4e4b62' }) -- Match existing float border
+    vim.api.nvim_set_hl(0, 'PrettyHoverSeparator', { fg = '#3a3750' }) -- Even dimmer separator
 
     -- Apply dim highlights to pretty_hover windows
     vim.api.nvim_create_autocmd('FileType', {
@@ -28,6 +29,8 @@ return {
               'Normal:PrettyHoverNormal,FloatBorder:PrettyHoverBorder',
               { win = win }
             )
+            -- Add syntax match for separator lines (box-drawing characters)
+            vim.fn.matchadd('PrettyHoverSeparator', '^[─━┄┅┈┉═]\\+$')
           end
         end
       end,

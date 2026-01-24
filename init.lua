@@ -871,8 +871,71 @@ require('lazy').setup({
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+
+      local combine_groups = function(groups)
+        local parts = vim.tbl_map(function(s)
+          if type(s) == 'string' then
+            return s
+          end
+          if type(s) ~= 'table' then
+            return ''
+          end
+
+          local string_arr = vim.tbl_filter(function(x)
+            return type(x) == 'string' and x ~= ''
+          end, s.strings or {})
+          local str = table.concat(string_arr, ' ')
+
+          if s.hl == nil then
+            return ' ' .. str .. ' '
+          end
+
+          if str:len() == 0 then
+            return '%#' .. s.hl .. '#'
+          end
+
+          return string.format('%%#%s# %s ', s.hl, str)
+        end, groups)
+
+        return table.concat(parts, '')
+      end
+
+      statusline.setup {
+        use_icons = vim.g.have_nerd_font,
+        set_vim_settings = true,
+        content = {
+          active = function()
+            local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 50 }
+            local git = MiniStatusline.section_git { trunc_width = 40 }
+            local diff = MiniStatusline.section_diff { trunc_width = 75 }
+            local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
+            local filename = MiniStatusline.section_filename { trunc_width = 140 }
+            local location = MiniStatusline.section_location { trunc_width = 75 }
+            local search = MiniStatusline.section_searchcount { trunc_width = 75 }
+
+            local tab = {
+              { hl = mode_hl, strings = { mode } },
+            }
+
+            if table.concat({ git, diff, diagnostics }):len() > 0 then
+              table.insert(tab, { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics } })
+            end
+
+            table.insert(tab, '%<')
+            table.insert(tab, { hl = 'MiniStatuslineFilename', strings = { filename } })
+            table.insert(tab, '%=')
+            table.insert(tab, { hl = mode_hl, strings = { search, location } })
+
+            return combine_groups(tab)
+          end,
+          inactive = function()
+            local filename = MiniStatusline.section_filename { trunc_width = 140 }
+            return combine_groups {
+              { hl = 'MiniStatuslineInactive', strings = { filename } },
+            }
+          end,
+        },
+      }
 
       require('mini.files').setup()
       vim.keymap.set('n', '<leader>fc', MiniFiles.open, { desc = 'Open Explorer Project CWD' })
@@ -897,11 +960,22 @@ require('lazy').setup({
         require('mini.diff').toggle_overlay(0)
       end, { desc = 'Toggle mini.diff overlay' })
 
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
+      -- Override section_filename to show relative path
       ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
+      MiniStatusline.section_filename = function(args)
+        local filename = vim.fn.expand('%:.')
+        if filename == '' then
+          return '[No Name]'
+        end
+        if args and args.trunc_width and vim.fn.winwidth(0) < args.trunc_width then
+          return vim.fn.expand('%:t')
+        end
+        return filename
+      end
+
+      -- Override section_location for LINE:COLUMN format
+      ---@diagnostic disable-next-line: duplicate-set-field
+      MiniStatusline.section_location = function()
         return '%2l:%-2v'
       end
 

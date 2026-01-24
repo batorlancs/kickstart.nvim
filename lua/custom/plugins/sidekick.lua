@@ -4,7 +4,7 @@ return {
   config = function(_, opts)
     -- Enable the copilot LSP (required for NES)
     -- This uses the lsp/copilot.lua config file
-    vim.lsp.enable('copilot')
+    vim.lsp.enable 'copilot'
 
     require('sidekick').setup(opts)
   end,
@@ -27,47 +27,56 @@ return {
   keys = {
     -- Normal mode Tab for NES navigation
     {
-      '<Tab>',
+      '<tab>',
       function()
-        if not require('sidekick').nes_jump_or_apply() then
-          return '<Tab>'
+        -- if there is a next edit, jump to it, otherwise apply it if any
+        if require('sidekick').nes_jump_or_apply() then
+          return -- jumped or applied
         end
-      end,
-      mode = 'n',
-      expr = true,
-      desc = 'NES Jump/Apply',
-    },
-    {
-      '<S-Tab>',
-      function()
-        if not require('sidekick').nes_jump(-1) then
-          return '<S-Tab>'
+
+        -- if you are using Neovim's native inline completions
+        if vim.lsp.inline_completion.get() then
+          return
         end
+
+        -- any other things (like snippets) you want to do on <tab> go here.
+
+        -- fall back to normal tab
+        return '<tab>'
       end,
-      mode = 'n',
+      mode = { 'i', 'n' },
       expr = true,
-      desc = 'NES Jump Prev',
+      desc = 'Goto/Apply Next Edit Suggestion',
     },
     {
-      '<leader>ns',
+      '<leader>aa',
       function()
-        require('sidekick').nes_toggle()
+        require('sidekick.cli').toggle { name = 'opencode', focus = true }
       end,
-      desc = '[N]ES Toggle [S]uggestions',
+      desc = 'Opencode',
     },
     {
-      '<leader>na',
+      '<leader>at',
       function()
-        require('sidekick').nes_apply_all()
+        require('sidekick.cli').send { msg = '{this}', name = 'opencode' }
       end,
-      desc = '[N]ES [A]pply All',
+      mode = { 'x', 'n' },
+      desc = 'Send This',
     },
     {
-      '<leader>nd',
+      '<leader>af',
       function()
-        require('sidekick').nes_dismiss()
+        require('sidekick.cli').send { msg = '{file}', name = 'opencode' }
       end,
-      desc = '[N]ES [D]ismiss',
+      desc = 'Send File',
+    },
+    {
+      '<leader>as',
+      function()
+        require('sidekick.cli').send { msg = '{selection}', name = 'opencode' }
+      end,
+      mode = { 'x' },
+      desc = 'Send Visual Selection',
     },
   },
 }

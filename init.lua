@@ -458,10 +458,8 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
-          -- Override K to show hover with rounded border
-          vim.keymap.set('n', 'K', function()
-            vim.lsp.buf.hover { border = 'rounded' }
-          end, { buffer = event.buf, desc = 'LSP: Hover Documentation' })
+          -- K uses the global hover handler (configured in rose-pine setup)
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = event.buf, desc = 'LSP: Hover Documentation' })
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -749,13 +747,13 @@ require('lazy').setup({
           auto_show_delay_ms = 50,
           window = {
             border = 'rounded',
-            winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
+            winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
           },
         },
         menu = {
           border = 'rounded',
           draw = { gap = 2 },
-          winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
+          winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
         },
       },
 
@@ -827,14 +825,20 @@ require('lazy').setup({
           ['@string.documentation.python'] = { fg = '#524f67' },
           -- LSP hover and float borders
           FloatBorder = { fg = '#4e4b62' },
-          -- Blink.cmp colors
+          -- Make LSP hover separator less visible
+          markdownRule = { fg = '#3a3750' },
+          ['@markup.raw.delimiter.markdown'] = { fg = '#3a3750' },
+          ['@punctuation.special.markdown'] = { fg = '#3a3750' },
+          -- Custom LSP hover border (making it RED temporarily to verify it works)
+          LspHoverBorder = { fg = '#ff0000' },
+          -- Blink.cmp colors (RED borders for testing)
           BlinkCmpDoc = { bg = '#1F1D2E' },
-          BlinkCmpDocBorder = { bg = '#1F1D2E', fg = '#3a3750' },
+          BlinkCmpDocBorder = { bg = '#1F1D2E', fg = '#ff0000' },
           BlinkCmpMenu = { bg = '#1F1D2E' },
           BlinkCmpMenuSelection = { bg = '#332D41' },
-          BlinkCmpMenuBorder = { bg = '#3a3750', fg = '#3a3750' },
+          BlinkCmpMenuBorder = { bg = '#1F1D2E', fg = '#ff0000' },
           BlinkCmpSignatureHelp = { bg = '#191724' },
-          BlinkCmpSignatureHelpBorder = { bg = '#191724', fg = '#3a3750' },
+          BlinkCmpSignatureHelpBorder = { bg = '#191724', fg = '#ff0000' },
         },
       }
 
@@ -976,6 +980,38 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+})
+
+-- Make markdown horizontal rules (separators) less visible everywhere
+local function set_separator_highlights()
+  local dim_color = '#2a2837' -- Very dim, close to background
+
+  -- Define a custom highlight for separators
+  vim.api.nvim_set_hl(0, 'MarkdownSeparator', { fg = dim_color })
+
+  -- Treesitter markdown highlights for horizontal rules
+  vim.api.nvim_set_hl(0, '@markup.raw.delimiter.markdown', { fg = dim_color })
+  vim.api.nvim_set_hl(0, '@punctuation.special.markdown', { fg = dim_color })
+  vim.api.nvim_set_hl(0, 'markdownRule', { fg = dim_color })
+
+  -- conceal character highlight (horizontal rules sometimes use this)
+  vim.api.nvim_set_hl(0, 'Conceal', { fg = dim_color })
+end
+
+-- Apply now and on colorscheme change
+set_separator_highlights()
+vim.api.nvim_create_autocmd('ColorScheme', {
+  callback = set_separator_highlights,
+})
+
+-- Add syntax match for horizontal separator lines in any buffer
+vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', 'WinEnter' }, {
+  callback = function()
+    -- Match lines that are entirely horizontal box-drawing characters
+    pcall(function()
+      vim.fn.matchadd('MarkdownSeparator', '^[─━┄┅┈┉═]\\+$')
+    end)
+  end,
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`

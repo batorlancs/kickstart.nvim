@@ -39,7 +39,20 @@ return {
       enabled = true,
     },
     gh = {},
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      previewers = {
+        diff = {
+          style = 'terminal',
+          cmd = { 'delta' }, -- example for using `delta` as the external diff command
+          wo = {
+            breakindent = false,
+            wrap = false,
+            linebreak = true,
+          },
+        },
+      },
+    },
     dashboard = {
       enabled = true,
       preset = {
@@ -183,9 +196,9 @@ return {
     {
       '<leader><space>',
       function()
-        Snacks.picker.smart()
+        Snacks.picker.files()
       end,
-      desc = 'Smart Find Files',
+      desc = 'Find Files',
     },
     {
       '<leader>,',

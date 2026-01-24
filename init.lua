@@ -216,6 +216,14 @@ vim.keymap.set('n', '<leader>wd', '<C-w>c', { desc = '[W]indow [D]elete' })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
+-- Enable treesitter highlighting
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Enable treesitter highlighting',
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
+
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode
 --  See `:help vim.hl.on_yank()`
@@ -891,7 +899,7 @@ require('lazy').setup({
   -- place them in the correct locations.
 
   -- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-  --  
+  --
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --

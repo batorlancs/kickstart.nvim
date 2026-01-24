@@ -458,10 +458,7 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
-          -- Override K to show hover with rounded border
-          vim.keymap.set('n', 'K', function()
-            vim.lsp.buf.hover { border = 'rounded' }
-          end, { buffer = event.buf, desc = 'LSP: Hover Documentation' })
+          -- NOTE: K keymap for hover is handled by pretty_hover plugin (lua/custom/plugins/pretty_hover.lua)
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client

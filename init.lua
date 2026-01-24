@@ -773,7 +773,13 @@ require('lazy').setup({
       fuzzy = { implementation = 'lua' },
 
       -- Shows a signature help window while you type arguments for a function
-      signature = { enabled = true },
+      signature = {
+        enabled = true,
+        window = {
+          border = 'rounded',
+          winhighlight = 'Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder,Search:None',
+        },
+      },
     },
   },
 
@@ -814,11 +820,14 @@ require('lazy').setup({
           ['@comment'] = { fg = '#524f67' },
           -- Python docstrings: same color as comments
           ['@string.documentation.python'] = { fg = '#524f67' },
-          -- Blink.cmp documentation window
+          -- Blink.cmp colors
           BlinkCmpDoc = { bg = '#1F1D2E' },
-          BlinkCmpDocBorder = { bg = '#2A2740', fg = '#2A2740' },
+          -- BlinkCmpDocBorder = { bg = '#2A2740', fg = '#2A2740' },
           BlinkCmpMenu = { bg = '#1F1D2E' },
-          BlinkCmpMenuBorder = { bg = '#2A2740', fg = '#2A2740' },
+          -- BlinkCmpMenuBorder = { bg = '#2A2740', fg = '#2A2740' },
+          -- BlinkCmpSignatureHelp = { bg = '#1F1D2E' },
+          BlinkCmpSignatureHelp = { bg = '#191724' },
+          BlinkCmpSignatureHelpBorder = { bg = '#191724', fg = '#6E6A86' },
         },
       }
 

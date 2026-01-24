@@ -799,6 +799,8 @@ require('lazy').setup({
         highlight_groups = {
           Comment = { fg = '#524f67' },
           ['@comment'] = { fg = '#524f67' },
+          -- Python docstrings: same color as comments
+          ['@string.documentation.python'] = { fg = '#524f67' },
         },
       }
 

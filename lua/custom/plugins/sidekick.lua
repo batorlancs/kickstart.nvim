@@ -25,43 +25,28 @@ return {
     },
   },
   keys = {
+    -- Normal mode Tab for NES navigation
     {
       '<Tab>',
       function()
-        -- If there's an active NES, jump to it or apply it
-        if require('sidekick').nes_jump_or_apply() then
-          return
+        if not require('sidekick').nes_jump_or_apply() then
+          return '<Tab>'
         end
-        -- If blink.cmp menu is visible, select next item
-        local blink_ok, blink = pcall(require, 'blink.cmp')
-        if blink_ok and blink.is_visible() then
-          blink.select_next()
-          return
-        end
-        -- Fallback to normal tab
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n', false)
       end,
-      mode = { 'n', 'i' },
-      desc = 'NES Jump/Apply or Tab',
+      mode = 'n',
+      expr = true,
+      desc = 'NES Jump/Apply',
     },
     {
       '<S-Tab>',
       function()
-        -- Jump to previous NES hunk
-        if require('sidekick').nes_jump(-1) then
-          return
+        if not require('sidekick').nes_jump(-1) then
+          return '<S-Tab>'
         end
-        -- If blink.cmp menu is visible, select prev item
-        local blink_ok, blink = pcall(require, 'blink.cmp')
-        if blink_ok and blink.is_visible() then
-          blink.select_prev()
-          return
-        end
-        -- Fallback to normal shift-tab
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<S-Tab>', true, false, true), 'n', false)
       end,
-      mode = { 'n', 'i' },
-      desc = 'NES Jump Prev or S-Tab',
+      mode = 'n',
+      expr = true,
+      desc = 'NES Jump Prev',
     },
     {
       '<leader>ns',

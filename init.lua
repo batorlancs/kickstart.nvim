@@ -738,7 +738,20 @@ require('lazy').setup({
       completion = {
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 50,
+          window = {
+            border = 'rounded',
+            max_width = 60,
+            max_height = 12,
+          },
+        },
+        menu = {
+          draw = {
+            columns = { { 'kind_icon' }, { 'label', gap = 1 } },
+          },
+        },
       },
 
       sources = {
@@ -801,6 +814,11 @@ require('lazy').setup({
           ['@comment'] = { fg = '#524f67' },
           -- Python docstrings: same color as comments
           ['@string.documentation.python'] = { fg = '#524f67' },
+          -- Blink.cmp documentation window
+          BlinkCmpDoc = { bg = '#1F1D2E' },
+          BlinkCmpDocBorder = { bg = '#1F1D2E', fg = '#1F1D2E' },
+          BlinkCmpMenu = { bg = '#1F1D2E' },
+          BlinkCmpMenuBorder = { bg = '#1F1D2E', fg = '#1F1D2E' },
         },
       }
 

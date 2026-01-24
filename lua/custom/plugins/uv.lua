@@ -10,5 +10,6 @@ return {
   -- },
   opts = {
     picker_integration = true,
+    keymaps = false, -- Disable all keymaps
   },
 }

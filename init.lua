@@ -363,10 +363,11 @@ require('lazy').setup({
         { '<leader>t', group = '[T]oggle' },
         { '<leader>g', group = '[G]it' },
         { '<leader>w', group = '[W]indows' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
         { '<leader>f', group = '[F]ind' },
-        { '<leader>n', group = '[N]ES (Next Edit)' },
         { '<leader>a', group = '[A]I' },
+        { '<leader>d', group = '[D]iagnostics' },
+        { '<leader>e', group = '[E]xtras' },
+        { '<leader>f', group = '[F]ile' },
       },
     },
   },
@@ -870,13 +871,13 @@ require('lazy').setup({
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
       require('mini.files').setup()
-      vim.keymap.set('n', '<leader>cc', MiniFiles.open, { desc = 'Open mini.files' })
-      vim.keymap.set('n', '<leader>cf', function()
+      vim.keymap.set('n', '<leader>fc', MiniFiles.open, { desc = 'Open Explorer Project CWD' })
+      vim.keymap.set('n', '<leader>ff', function()
         local buf_name = vim.api.nvim_buf_get_name(0)
         local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
         MiniFiles.open(path)
         MiniFiles.reveal_cwd()
-      end, { desc = 'Open Mini Files' })
+      end, { desc = 'Open Explorer Here' })
 
       require('mini.icons').setup()
 

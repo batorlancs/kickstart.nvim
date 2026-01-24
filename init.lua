@@ -458,6 +458,11 @@ require('lazy').setup({
           --  For example, in C this would take you to the header.
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          -- Override K to show hover with rounded border
+          vim.keymap.set('n', 'K', function()
+            vim.lsp.buf.hover { border = 'rounded' }
+          end, { buffer = event.buf, desc = 'LSP: Hover Documentation' })
+
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
@@ -820,14 +825,16 @@ require('lazy').setup({
           ['@comment'] = { fg = '#524f67' },
           -- Python docstrings: same color as comments
           ['@string.documentation.python'] = { fg = '#524f67' },
+          -- LSP hover and float borders
+          FloatBorder = { fg = '#4e4b62' },
           -- Blink.cmp colors
           BlinkCmpDoc = { bg = '#1F1D2E' },
-          -- BlinkCmpDocBorder = { bg = '#2A2740', fg = '#2A2740' },
+          BlinkCmpDocBorder = { bg = '#1F1D2E', fg = '#3a3750' },
           BlinkCmpMenu = { bg = '#1F1D2E' },
-          -- BlinkCmpMenuBorder = { bg = '#2A2740', fg = '#2A2740' },
-          -- BlinkCmpSignatureHelp = { bg = '#1F1D2E' },
+          BlinkCmpMenuSelection = { bg = '#332D41' },
+          BlinkCmpMenuBorder = { bg = '#3a3750', fg = '#3a3750' },
           BlinkCmpSignatureHelp = { bg = '#191724' },
-          BlinkCmpSignatureHelpBorder = { bg = '#191724', fg = '#6E6A86' },
+          BlinkCmpSignatureHelpBorder = { bg = '#191724', fg = '#3a3750' },
         },
       }
 

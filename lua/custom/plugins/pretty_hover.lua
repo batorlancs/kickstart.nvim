@@ -13,7 +13,7 @@ return {
     -- Define dim highlight groups for hover window
     vim.api.nvim_set_hl(0, 'PrettyHoverNormal', { fg = '#6e6a86' }) -- Dim text color
     vim.api.nvim_set_hl(0, 'PrettyHoverBorder', { fg = '#4e4b62' }) -- Match existing float border
-    vim.api.nvim_set_hl(0, 'PrettyHoverSeparator', { fg = '#3a3750' }) -- Even dimmer separator
+    vim.api.nvim_set_hl(0, 'PrettyHoverSeparator', { fg = '#2e2b3d' }) -- Even dimmer separator
 
     -- Apply dim highlights to pretty_hover windows
     vim.api.nvim_create_autocmd('FileType', {

@@ -15,7 +15,6 @@ return {
   ---@type snacks.Config
   opts = {
     ---@type table<string, snacks.win.Config>
-    scroll = {},
     bufdelete = {},
     explorer = { enabled = false },
     styles = {
@@ -98,6 +97,28 @@ return {
     },
   },
   keys = {
+    -- buffer delete
+    {
+      '<leader>bd',
+      function()
+        Snacks.bufdelete.delete()
+      end,
+      desc = 'Delete Buffer',
+    },
+    {
+      '<leader>bo',
+      function()
+        Snacks.bufdelete.other()
+      end,
+      desc = 'Delete Other Buffers',
+    },
+    {
+      '<leader>ba',
+      function()
+        Snacks.bufdelete.all()
+      end,
+      desc = 'Delete All Buffers',
+    },
 
     -- git
     {
@@ -201,13 +222,6 @@ return {
         Snacks.picker.files()
       end,
       desc = 'Find Files',
-    },
-    {
-      '<leader>n',
-      function()
-        Snacks.picker.notifications()
-      end,
-      desc = 'Notification History',
     },
     {
       '<leader>,',

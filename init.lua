@@ -176,9 +176,6 @@ vim.o.confirm = true
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
@@ -368,6 +365,7 @@ require('lazy').setup({
         { '<leader>d', group = '[D]iagnostics' },
         { '<leader>e', group = '[E]xtras' },
         { '<leader>f', group = '[F]ile' },
+        { '<leader>b', group = '[B]uffer' },
       },
     },
   },
@@ -626,7 +624,7 @@ require('lazy').setup({
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>p',
+        '<leader>i',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,

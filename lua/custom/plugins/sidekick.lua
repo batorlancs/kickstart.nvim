@@ -57,7 +57,7 @@ return {
       function()
         require('sidekick.cli').toggle()
       end,
-      desc = 'Sidekick Toggle CLI',
+      desc = 'AI Toggle',
     },
     {
       '<leader>at',
@@ -65,14 +65,14 @@ return {
         require('sidekick.cli').send { msg = '{this}', name = 'opencode' }
       end,
       mode = { 'x', 'n' },
-      desc = 'Send This',
+      desc = 'AI Send This',
     },
     {
       '<leader>af',
       function()
         require('sidekick.cli').send { msg = '{file}', name = 'opencode' }
       end,
-      desc = 'Send File',
+      desc = 'AI Send File',
     },
     {
       '<leader>as',
@@ -80,7 +80,7 @@ return {
         require('sidekick.cli').send { msg = '{selection}', name = 'opencode' }
       end,
       mode = { 'x' },
-      desc = 'Send Visual Selection',
+      desc = 'AI Send Visual Selection',
     },
   },
 }

@@ -209,6 +209,20 @@ vim.keymap.set('n', '<leader>wd', '<C-w>c', { desc = '[W]indow [D]elete' })
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- Scroll with centered cursor
+local function lazy(keys)
+  keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
+  return function()
+    local old = vim.o.lazyredraw
+    vim.o.lazyredraw = true
+    vim.api.nvim_feedkeys(keys, 'nx', false)
+    vim.o.lazyredraw = old
+  end
+end
+
+vim.keymap.set('n', '<c-d>', lazy '<c-d>zz', { desc = 'Scroll down half screen' })
+vim.keymap.set('n', '<c-u>', lazy '<c-u>zz', { desc = 'Scroll up half screen' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -963,12 +977,12 @@ require('lazy').setup({
       -- Override section_filename to show relative path
       ---@diagnostic disable-next-line: duplicate-set-field
       MiniStatusline.section_filename = function(args)
-        local filename = vim.fn.expand('%:.')
+        local filename = vim.fn.expand '%:.'
         if filename == '' then
           return '[No Name]'
         end
         if args and args.trunc_width and vim.fn.winwidth(0) < args.trunc_width then
-          return vim.fn.expand('%:t')
+          return vim.fn.expand '%:t'
         end
         return filename
       end
@@ -1067,38 +1081,24 @@ require('lazy').setup({
     },
   },
 })
---
--- -- Make markdown horizontal rules (separators) less visible everywhere
--- local function set_separator_highlights()
---   local dim_color = '#2a2837' -- Very dim, close to background
---
---   -- Define a custom highlight for separators
---   vim.api.nvim_set_hl(0, 'MarkdownSeparator', { fg = dim_color })
---
---   -- Treesitter markdown highlights for horizontal rules
---   vim.api.nvim_set_hl(0, '@markup.raw.delimiter.markdown', { fg = dim_color })
---   vim.api.nvim_set_hl(0, '@punctuation.special.markdown', { fg = dim_color })
---   vim.api.nvim_set_hl(0, 'markdownRule', { fg = dim_color })
---
---   -- conceal character highlight (horizontal rules sometimes use this)
---   vim.api.nvim_set_hl(0, 'Conceal', { fg = dim_color })
--- end
---
--- -- Apply now and on colorscheme change
--- set_separator_highlights()
--- vim.api.nvim_create_autocmd('ColorScheme', {
---   callback = set_separator_highlights,
--- })
---
--- -- Add syntax match for horizontal separator lines in any buffer
--- vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter', 'WinEnter' }, {
---   callback = function()
---     -- Match lines that are entirely horizontal box-drawing characters
---     pcall(function()
---       vim.fn.matchadd('MarkdownSeparator', '^[─━┄┅┈┉═]\\+$')
---     end)
---   end,
--- })
+
+-- Automatically reload files changed outside of Neovim
+vim.o.autoread = true
+
+-- Trigger autoread when files change on disk
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  pattern = '*',
+  command = 'checktime',
+})
+
+-- Notification when file changes on disk
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  pattern = '*',
+  callback = function()
+    vim.notify('File changed on disk. Buffer reloaded.', vim.log.levels.WARN)
+  end,
+})
+
 --
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

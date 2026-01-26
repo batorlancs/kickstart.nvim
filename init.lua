@@ -223,6 +223,9 @@ end
 vim.keymap.set('n', '<c-d>', lazy '<c-d>zz', { desc = 'Scroll down half screen' })
 vim.keymap.set('n', '<c-u>', lazy '<c-u>zz', { desc = 'Scroll up half screen' })
 
+-- code action
+vim.keymap.set('n', '<leader>c', vim.lsp.buf.code_action, { desc = 'LSP Code Action' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -380,6 +383,7 @@ require('lazy').setup({
         { '<leader>e', group = '[E]xtras' },
         { '<leader>f', group = '[F]ile' },
         { '<leader>b', group = '[B]uffer' },
+        { '<leader>o', group = '[O]pencode' },
       },
     },
   },

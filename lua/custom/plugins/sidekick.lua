@@ -39,7 +39,7 @@ return {
         end
 
         -- if you are using Neovim's native inline completions
-        if vim.lsp.inline_completion.get() then
+        if vim.lsp.inline_completion and vim.lsp.inline_completion.get() then
           return
         end
 

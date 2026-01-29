@@ -3,16 +3,16 @@ return {
   priority = 1000,
   lazy = false,
   init = function()
-    vim.api.nvim_create_autocmd('ColorScheme', {
-      callback = function()
-        -- Make scope indent more transparent (blend with background)
-        vim.api.nvim_set_hl(0, 'SnacksIndent', { fg = '#2a2a3c' })
-        vim.api.nvim_set_hl(0, 'SnacksIndentScope', { fg = '#3b3b52' })
-      end,
-    })
-    -- Set it immediately for the current colorscheme
-    vim.api.nvim_set_hl(0, 'SnacksIndent', { fg = '#2a2a3c' })
-    vim.api.nvim_set_hl(0, 'SnacksIndentScope', { fg = '#3b3b52' })
+    local function apply_highlights()
+      local c = require 'custom.colors'
+      vim.api.nvim_set_hl(0, 'SnacksIndent', { fg = c.indent })
+      vim.api.nvim_set_hl(0, 'SnacksIndentScope', { fg = c.indent_scope })
+      vim.api.nvim_set_hl(0, 'SnacksPicker', { bg = c.popup_bg_darker, fg = c.fg })
+      vim.api.nvim_set_hl(0, 'SnacksPickerNormal', { bg = c.popup_bg_darker })
+      vim.api.nvim_set_hl(0, 'SnacksPickerBorder', { bg = c.popup_bg_darker, fg = c.popup_border_darker })
+    end
+    vim.api.nvim_create_autocmd('ColorScheme', { callback = apply_highlights })
+    apply_highlights()
   end,
   ---@type snacks.Config
   opts = {
@@ -22,9 +22,9 @@ return {
     terminal = {},
     explorer = { enabled = false },
     styles = {
-      -- your styles configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
+      lazygit = {
+        wo = { winhighlight = 'Normal:SnacksPickerNormal' },
+      },
     },
     indent = {
       enabled = true,
@@ -46,6 +46,11 @@ return {
     gh = {},
     picker = {
       enabled = true,
+      win = {
+        input = { wo = { winhighlight = 'Normal:SnacksPickerNormal,FloatBorder:SnacksPickerBorder' } },
+        list = { wo = { winhighlight = 'Normal:SnacksPickerNormal,FloatBorder:SnacksPickerBorder' } },
+        preview = { wo = { winhighlight = 'Normal:SnacksPickerNormal,FloatBorder:SnacksPickerBorder' } },
+      },
       previewers = {
         diff = {
           style = 'terminal',

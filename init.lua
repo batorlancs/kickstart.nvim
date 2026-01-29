@@ -765,13 +765,13 @@ require('lazy').setup({
           auto_show_delay_ms = 50,
           window = {
             border = 'rounded',
-            winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
+            winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None',
           },
         },
         menu = {
           border = 'rounded',
           draw = { gap = 2 },
-          winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
+          winhighlight = 'Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None',
         },
       },
 
@@ -842,6 +842,7 @@ require('lazy').setup({
     name = 'catppuccin',
     priority = 1000, -- Load before other start plugins
     config = function()
+      local c = require 'custom.colors'
       require('catppuccin').setup {
         flavour = 'mocha',
         no_italic = true,
@@ -849,20 +850,17 @@ require('lazy').setup({
         -- transparency = true,
         custom_highlights = function()
           return {
-            Comment = { fg = '#585b70' },
-            ['@comment'] = { fg = '#585b70' },
-            -- Python docstrings: same color as comments
-            ['@string.documentation.python'] = { fg = '#585b70' },
-            -- LSP hover and float borders
-            FloatBorder = { fg = '#45475a' },
-            -- Blink.cmp colors
-            BlinkCmpDoc = { bg = '#232334' },
-            BlinkCmpDocBorder = { bg = '#232334', fg = '#3b3b52' },
-            BlinkCmpMenu = { bg = '#232334' },
-            BlinkCmpMenuSelection = { bg = '#45475a' },
-            BlinkCmpMenuBorder = { bg = '#3b3b52', fg = '#3b3b52' },
-            BlinkCmpSignatureHelp = { bg = '#232334' },
-            BlinkCmpSignatureHelpBorder = { bg = '#232334', fg = '#3b3b52' },
+            Comment = { fg = c.comment },
+            ['@comment'] = { fg = c.comment },
+            ['@string.documentation.python'] = { fg = c.comment },
+            FloatBorder = { fg = c.border, bg = c.popup_bg },
+            BlinkCmpDoc = { bg = c.popup_bg_darker },
+            BlinkCmpDocBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+            BlinkCmpMenu = { bg = c.popup_bg_darker },
+            BlinkCmpMenuSelection = { bg = c.selection },
+            BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+            BlinkCmpSignatureHelp = { bg = c.popup_bg },
+            BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
           }
         end,
       }

@@ -859,7 +859,7 @@ require('lazy').setup({
             Comment = { fg = c.comment },
             ['@comment'] = { fg = c.comment },
             ['@string.documentation.python'] = { fg = c.comment },
-            FloatBorder = { fg = c.border, bg = c.popup_bg },
+            FloatBorder = { fg = c.border, bg = c.popup_bg_darker },
             BlinkCmpDoc = { bg = c.popup_bg_darker },
             BlinkCmpDocBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
             BlinkCmpMenu = { bg = c.popup_bg_darker },

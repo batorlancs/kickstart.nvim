@@ -5,7 +5,7 @@ return {
   border = '#45475a', -- float borders (Surface1)
   popup_bg = '#232334', -- popup/menu background (slightly lighter than base)
   popup_border = '#3b3b52', -- popup/menu border
-  popup_bg_darker = '#1a1a29', -- darker popup/menu background
+  popup_bg_darker = '#181825', -- darker popup/menu background
   popup_border_darker = '#2a2a3c', -- darker popup/menu border
   selection = '#303240', -- menu selection highlight (Surface1)
   base = '#1e1e2e', -- base background

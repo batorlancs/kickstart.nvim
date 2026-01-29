@@ -6,11 +6,13 @@ return {
     vim.api.nvim_create_autocmd('ColorScheme', {
       callback = function()
         -- Make scope indent more transparent (blend with background)
-        vim.api.nvim_set_hl(0, 'SnacksIndentScope', { fg = '#6c7086', blend = 50 })
+        vim.api.nvim_set_hl(0, 'SnacksIndent', { fg = '#2a2a3c' })
+        vim.api.nvim_set_hl(0, 'SnacksIndentScope', { fg = '#3b3b52' })
       end,
     })
     -- Set it immediately for the current colorscheme
-    vim.api.nvim_set_hl(0, 'SnacksIndentScope', { fg = '#6c7086', blend = 50 })
+    vim.api.nvim_set_hl(0, 'SnacksIndent', { fg = '#2a2a3c' })
+    vim.api.nvim_set_hl(0, 'SnacksIndentScope', { fg = '#3b3b52' })
   end,
   ---@type snacks.Config
   opts = {

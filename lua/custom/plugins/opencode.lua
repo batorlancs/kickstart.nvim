@@ -22,8 +22,13 @@ return {
 
     -- Recommended/example keymaps.
     vim.keymap.set({ 'n', 'x' }, '<leader>ob', function()
-      require('opencode').ask('@buffer: ', { submit = true })
-    end, { desc = 'Ask opencode with buffer…' })
+      require('opencode').ask('@buffer ', { submit = true })
+    end, { desc = 'Ask opencode with buffer...' })
+
+    -- Recommended/example keymaps.
+    vim.keymap.set({ 'n', 'x' }, '<leader>od', function()
+      require('opencode').ask('@diagnostics ', { submit = true })
+    end, { desc = 'Ask opencode with diagnostics...' })
 
     vim.keymap.set({ 'n', 'x' }, '<leader>oo', function()
       require('opencode').select()

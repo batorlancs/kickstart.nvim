@@ -11,8 +11,8 @@ return {
     require('pretty_hover').setup(opts)
 
     local c = require 'custom.colors'
-    vim.api.nvim_set_hl(0, 'PrettyHoverNormal', { fg = c.muted, bg = c.popup_bg })
-    vim.api.nvim_set_hl(0, 'PrettyHoverBorder', { fg = c.popup_border, bg = c.popup_bg })
+    vim.api.nvim_set_hl(0, 'PrettyHoverNormal', { fg = c.muted, bg = c.popup_bg_darker })
+    vim.api.nvim_set_hl(0, 'PrettyHoverBorder', { fg = c.popup_border_darker, bg = c.popup_bg_darker })
     vim.api.nvim_set_hl(0, 'PrettyHoverSeparator', { fg = c.separator })
 
     -- Apply dim highlights to pretty_hover windows

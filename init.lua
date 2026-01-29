@@ -248,6 +248,29 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Delete current file and close buffer (with confirmation)
+vim.keymap.set('n', '<leader>fd', function()
+  local file = vim.fn.expand '%:p'
+  if file == '' then
+    vim.notify('No file to delete', vim.log.levels.ERROR)
+    return
+  end
+
+  local confirm = vim.fn.confirm('Delete "' .. file .. '"?', '&Yes\n&No', 2)
+  if confirm ~= 1 then
+    return
+  end
+
+  local ok, err = pcall(os.remove, file) -- or vim.fn.delete(file)
+  if not ok then
+    vim.notify('Failed to delete: ' .. err, vim.log.levels.ERROR)
+    return
+  end
+
+  vim.cmd 'bd!' -- force close buffer
+  vim.notify('Deleted ' .. vim.fn.fnamemodify(file, ':t'), vim.log.levels.INFO)
+end, { desc = '[F]ile [D]elete', silent = true })
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -377,7 +400,6 @@ require('lazy').setup({
         { '<leader>t', group = '[T]oggle' },
         { '<leader>g', group = '[G]it' },
         { '<leader>w', group = '[W]indows' },
-        { '<leader>f', group = '[F]ind' },
         { '<leader>a', group = '[A]I' },
         { '<leader>d', group = '[D]iagnostics' },
         { '<leader>e', group = '[E]xtras' },
@@ -388,8 +410,8 @@ require('lazy').setup({
     },
   },
 
+  -- Delete current file and close buffer (with confirmation)
   -- NOTE: Plugins can specify dependencies.
-
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis
@@ -974,7 +996,7 @@ require('lazy').setup({
       }
 
       require('mini.files').setup()
-      vim.keymap.set('n', '<leader>fc', MiniFiles.open, { desc = 'Open Explorer Project CWD' })
+      vim.keymap.set('n', '<leader>fr', MiniFiles.open, { desc = 'Open Explorer [R]oot' })
       vim.keymap.set('n', '<leader>ff', function()
         local buf_name = vim.api.nvim_buf_get_name(0)
         local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()

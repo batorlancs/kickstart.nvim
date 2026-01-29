@@ -837,43 +837,37 @@ require('lazy').setup({
       -- vim.cmd 'colorscheme github_dark_dimmed'
     end,
   },
-  { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
-
   {
-    'rose-pine/neovim',
-    name = 'rose-pine',
+    'catppuccin/nvim',
+    name = 'catppuccin',
     priority = 1000, -- Load before other start plugins
     config = function()
-      require('rose-pine').setup {
-        variant = 'main', -- auto, main, moon, or dawn
-        dark_variant = 'main', -- main, moon, or dawn
-        dim_inactive_windows = false,
-        extend_background_behind_borders = true,
-        styles = {
-          bold = false, -- Disabled bold
-          italic = false, -- Disabled italic
-          -- transparency = true, -- Enabled transparency
-        },
-        palette = {},
-        highlight_groups = {
-          Comment = { fg = '#524f67' },
-          ['@comment'] = { fg = '#524f67' },
-          -- Python docstrings: same color as comments
-          ['@string.documentation.python'] = { fg = '#524f67' },
-          -- LSP hover and float borders
-          FloatBorder = { fg = '#4e4b62' },
-          -- Blink.cmp colors
-          BlinkCmpDoc = { bg = '#1F1D2E' },
-          BlinkCmpDocBorder = { bg = '#1F1D2E', fg = '#3a3750' },
-          BlinkCmpMenu = { bg = '#1F1D2E' },
-          BlinkCmpMenuSelection = { bg = '#332D41' },
-          BlinkCmpMenuBorder = { bg = '#3a3750', fg = '#3a3750' },
-          BlinkCmpSignatureHelp = { bg = '#191724' },
-          BlinkCmpSignatureHelpBorder = { bg = '#191724', fg = '#3a3750' },
-        },
+      require('catppuccin').setup {
+        flavour = 'mocha',
+        no_italic = true,
+        no_bold = true,
+        -- transparency = true,
+        custom_highlights = function()
+          return {
+            Comment = { fg = '#585b70' },
+            ['@comment'] = { fg = '#585b70' },
+            -- Python docstrings: same color as comments
+            ['@string.documentation.python'] = { fg = '#585b70' },
+            -- LSP hover and float borders
+            FloatBorder = { fg = '#45475a' },
+            -- Blink.cmp colors
+            BlinkCmpDoc = { bg = '#181825' },
+            BlinkCmpDocBorder = { bg = '#181825', fg = '#313244' },
+            BlinkCmpMenu = { bg = '#181825' },
+            BlinkCmpMenuSelection = { bg = '#45475a' },
+            BlinkCmpMenuBorder = { bg = '#313244', fg = '#313244' },
+            BlinkCmpSignatureHelp = { bg = '#1e1e2e' },
+            BlinkCmpSignatureHelpBorder = { bg = '#1e1e2e', fg = '#313244' },
+          }
+        end,
       }
 
-      vim.cmd.colorscheme 'rose-pine'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
 

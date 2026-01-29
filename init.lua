@@ -271,6 +271,36 @@ vim.keymap.set('n', '<leader>fd', function()
   vim.notify('Deleted ' .. vim.fn.fnamemodify(file, ':t'), vim.log.levels.INFO)
 end, { desc = '[F]ile [D]elete', silent = true })
 
+-- Rename current file (prompts for new name)
+vim.keymap.set('n', '<leader>fr', function()
+  local old_path = vim.fn.expand '%:p'
+  local new_path = vim.fn.input('Rename to: ', old_path, 'file')
+
+  -- Cancel if empty or unchanged
+  if new_path == '' or new_path == old_path then
+    return
+  end
+
+  -- Safety check: don't overwrite existing files
+  if vim.loop.fs_stat(new_path) then
+    vim.notify('File already exists!', vim.log.levels.ERROR)
+    return
+  end
+
+  -- Rename on disk
+  local ok, err = os.rename(old_path, new_path)
+  if not ok then
+    vim.notify('Rename failed: ' .. err, vim.log.levels.ERROR)
+    return
+  end
+
+  -- Update buffer to point to new file
+  vim.api.nvim_buf_set_name(0, new_path)
+  vim.cmd 'edit' -- refreshes filetype detection, ensures consistency
+
+  vim.notify('Renamed → ' .. vim.fn.fnamemodify(new_path, ':t'), vim.log.levels.INFO)
+end, { desc = '[F]ile [R]ename', silent = true })
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -406,6 +436,8 @@ require('lazy').setup({
         { '<leader>f', group = '[F]ile' },
         { '<leader>b', group = '[B]uffer' },
         { '<leader>o', group = '[O]pencode' },
+        { '<leader>h', group = '[H]arpoon' },
+        { '<leader>m', group = '[M]arkdown' },
       },
     },
   },
@@ -707,6 +739,7 @@ require('lazy').setup({
           'ruff_format',
           'ruff_organize_imports',
         },
+        markdown = { 'prettier' },
 
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -996,13 +1029,13 @@ require('lazy').setup({
       }
 
       require('mini.files').setup()
-      vim.keymap.set('n', '<leader>fr', MiniFiles.open, { desc = 'Open Explorer [R]oot' })
+      vim.keymap.set('n', '<leader>fr', MiniFiles.open, { desc = 'Open [F]ile Explorer at [D]irectory Root' })
       vim.keymap.set('n', '<leader>ff', function()
         local buf_name = vim.api.nvim_buf_get_name(0)
         local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
         MiniFiles.open(path)
         MiniFiles.reveal_cwd()
-      end, { desc = 'Open Explorer Here' })
+      end, { desc = 'Open [F]ile Explorer at [F]ile Path' })
 
       require('mini.icons').setup()
 

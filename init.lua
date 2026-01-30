@@ -924,8 +924,11 @@ require('lazy').setup({
             BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
             BlinkCmpSignatureHelp = { bg = c.popup_bg },
             BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
-            StatuslineDimPath = { fg = c.muted, bg = c.base },
-            StatuslineBrightFile = { fg = '#cdd6f4', bg = c.base },
+            StatuslineDimPath = { fg = c.muted, bg = '#181825' },
+            StatuslineBrightFile = { fg = '#cdd6f4', bg = '#181825' },
+            StatuslineInactiveFile = { fg = '#585b70', bg = '#181825' },
+            MiniStatuslineFilename = { fg = c.muted, bg = '#181825' },
+            MiniStatuslineInactive = { fg = '#313244', bg = '#181825' },
           }
         end,
       }
@@ -1026,12 +1029,22 @@ require('lazy').setup({
             }
           end,
           inactive = function()
-            local filepath = vim.fn.expand '%:.'
-            if filepath == '' then
-              filepath = '[No Name]'
+            local fullpath = vim.fn.expand '%:.'
+            local dir, filename
+            if fullpath == '' then
+              dir = ''
+              filename = '[No Name]'
+            else
+              dir = vim.fn.fnamemodify(fullpath, ':h')
+              filename = vim.fn.fnamemodify(fullpath, ':t')
+              if dir ~= '.' then
+                dir = dir .. '/'
+              else
+                dir = ''
+              end
             end
             return combine_groups {
-              { hl = 'MiniStatuslineInactive', strings = { filepath } },
+              { hl = 'MiniStatuslineInactive', strings = { string.format('%%#StatuslineDimPath#%s%%#StatuslineInactiveFile#%s', dir, filename) } },
             }
           end,
         },

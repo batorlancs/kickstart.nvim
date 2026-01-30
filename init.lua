@@ -924,6 +924,8 @@ require('lazy').setup({
             BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
             BlinkCmpSignatureHelp = { bg = c.popup_bg },
             BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
+            StatuslineDimPath = { fg = c.muted, bg = c.base },
+            StatuslineBrightFile = { fg = '#cdd6f4', bg = c.base },
           }
         end,
       }
@@ -998,9 +1000,19 @@ require('lazy').setup({
         content = {
           active = function()
             local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 50 }
-            local filepath = vim.fn.expand '%:.'
-            if filepath == '' then
-              filepath = '[No Name]'
+            local fullpath = vim.fn.expand '%:.'
+            local dir, filename
+            if fullpath == '' then
+              dir = ''
+              filename = '[No Name]'
+            else
+              dir = vim.fn.fnamemodify(fullpath, ':h')
+              filename = vim.fn.fnamemodify(fullpath, ':t')
+              if dir ~= '.' then
+                dir = dir .. '/'
+              else
+                dir = ''
+              end
             end
 
             local modified = vim.bo.modified and '●' or ''
@@ -1008,7 +1020,7 @@ require('lazy').setup({
             return combine_groups {
               { hl = mode_hl, strings = { mode } },
               '%<',
-              { hl = 'MiniStatuslineFilename', strings = { filepath } },
+              { hl = 'MiniStatuslineFilename', strings = { string.format('%%#StatuslineDimPath#%s%%#StatuslineBrightFile#%s', dir, filename) } },
               '%=',
               { hl = 'DiagnosticWarn', strings = { modified } },
             }

@@ -926,7 +926,7 @@ require('lazy').setup({
             BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
             StatuslineDimPath = { fg = c.muted, bg = '#181825' },
             StatuslineBrightFile = { fg = '#cdd6f4', bg = '#181825' },
-            StatuslineInactiveFile = { fg = '#585b70', bg = '#181825' },
+            StatuslineInactiveFile = { fg = '#6C7086', bg = '#181825' },
             MiniStatuslineFilename = { fg = c.muted, bg = '#181825' },
             MiniStatuslineInactive = { fg = '#313244', bg = '#181825' },
           }

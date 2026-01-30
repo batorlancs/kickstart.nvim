@@ -998,32 +998,28 @@ require('lazy').setup({
         content = {
           active = function()
             local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 50 }
-            local git = MiniStatusline.section_git { trunc_width = 40 }
-            local diff = MiniStatusline.section_diff { trunc_width = 75 }
-            local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
-            local filename = MiniStatusline.section_filename { trunc_width = 140 }
-            local location = MiniStatusline.section_location { trunc_width = 75 }
-            local search = MiniStatusline.section_searchcount { trunc_width = 75 }
-
-            local tab = {
-              { hl = mode_hl, strings = { mode } },
-            }
-
-            if table.concat({ git, diff, diagnostics }):len() > 0 then
-              table.insert(tab, { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics } })
+            local filepath = vim.fn.expand '%:.'
+            if filepath == '' then
+              filepath = '[No Name]'
             end
 
-            table.insert(tab, '%<')
-            table.insert(tab, { hl = 'MiniStatuslineFilename', strings = { filename } })
-            table.insert(tab, '%=')
-            table.insert(tab, { hl = mode_hl, strings = { search, location } })
+            local modified = vim.bo.modified and '●' or ''
 
-            return combine_groups(tab)
+            return combine_groups {
+              { hl = mode_hl, strings = { mode } },
+              '%<',
+              { hl = 'MiniStatuslineFilename', strings = { filepath } },
+              '%=',
+              { hl = 'DiagnosticWarn', strings = { modified } },
+            }
           end,
           inactive = function()
-            local filename = MiniStatusline.section_filename { trunc_width = 140 }
+            local filepath = vim.fn.expand '%:.'
+            if filepath == '' then
+              filepath = '[No Name]'
+            end
             return combine_groups {
-              { hl = 'MiniStatuslineInactive', strings = { filename } },
+              { hl = 'MiniStatuslineInactive', strings = { filepath } },
             }
           end,
         },
@@ -1105,25 +1101,6 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>go', function()
         require('mini.diff').toggle_overlay(0)
       end, { desc = 'Toggle mini.diff overlay' })
-
-      -- Override section_filename to show relative path
-      ---@diagnostic disable-next-line: duplicate-set-field
-      MiniStatusline.section_filename = function(args)
-        local filename = vim.fn.expand '%:.'
-        if filename == '' then
-          return '[No Name]'
-        end
-        if args and args.trunc_width and vim.fn.winwidth(0) < args.trunc_width then
-          return vim.fn.expand '%:t'
-        end
-        return filename
-      end
-
-      -- Override section_location for LINE:COLUMN format
-      ---@diagnostic disable-next-line: duplicate-set-field
-      MiniStatusline.section_location = function()
-        return '%2l:%-2v'
-      end
 
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim

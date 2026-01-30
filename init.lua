@@ -432,12 +432,12 @@ require('lazy').setup({
         { '<leader>w', group = '[W]indows' },
         { '<leader>a', group = '[A]I' },
         { '<leader>d', group = '[D]iagnostics' },
-        { '<leader>e', group = '[E]xtras' },
         { '<leader>f', group = '[F]ile' },
         { '<leader>b', group = '[B]uffer' },
         { '<leader>o', group = '[O]pencode' },
         { '<leader>h', group = '[H]arpoon' },
         { '<leader>m', group = '[M]arkdown' },
+        { '<leader>x', group = '[X]tras' },
       },
     },
   },
@@ -1028,14 +1028,68 @@ require('lazy').setup({
         },
       }
 
-      require('mini.files').setup()
-      vim.keymap.set('n', '<leader>fr', MiniFiles.open, { desc = 'Open [F]ile Explorer at [D]irectory Root' })
-      vim.keymap.set('n', '<leader>ff', function()
+      require('mini.files').setup {
+        mappings = {
+          go_in = 'l',
+          go_in_plus = '<CR>',
+          reset = '<BS>',
+          reveal_cwd = '.',
+          show_help = 'g?',
+          synchronize = 's',
+          trim_left = '<',
+          trim_right = '>',
+        },
+        windows = {
+          preview = true,
+          width_focus = 30,
+          width_preview = 80,
+        },
+        options = {
+          use_as_default_explorer = true,
+          permanent_delete = false,
+        },
+        content = {
+          filter = function(entry)
+            -- Filter out parent directory entry (..) at the project root
+            return entry.name ~= '..'
+          end,
+        },
+      }
+
+      -- Prevent navigating above project root with 'h' key
+      local map_go_out = MiniFiles.config.mappings.go_out or 'h'
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'MiniFilesBufferCreate',
+        callback = function(args)
+          vim.keymap.set('n', map_go_out, function()
+            local cwd = vim.uv.cwd()
+            local cur_entry = MiniFiles.get_fs_entry()
+            local cur_dir = cur_entry and vim.fn.fnamemodify(cur_entry.path, ':h') or nil
+            if cur_dir and cwd and vim.fs.normalize(cur_dir) == vim.fs.normalize(cwd) then
+              return -- Already at project root, don't go out
+            end
+            MiniFiles.go_out()
+          end, { buffer = args.data.buf_id })
+        end,
+      })
+
+      -- Open the directory of the file currently being edited
+      vim.keymap.set('n', '<leader>e', function()
         local buf_name = vim.api.nvim_buf_get_name(0)
-        local path = vim.fn.filereadable(buf_name) == 1 and buf_name or vim.fn.getcwd()
-        MiniFiles.open(path)
-        MiniFiles.reveal_cwd()
-      end, { desc = 'Open [F]ile Explorer at [F]ile Path' })
+        local dir_name = vim.fn.fnamemodify(buf_name, ':p:h')
+        if vim.fn.filereadable(buf_name) == 1 then
+          require('mini.files').open(buf_name, true)
+        elseif vim.fn.isdirectory(dir_name) == 1 then
+          require('mini.files').open(dir_name, true)
+        else
+          require('mini.files').open(vim.uv.cwd(), true)
+        end
+      end, { desc = 'Open mini.files (Directory of Current File or CWD)' })
+
+      -- Open the current working directory
+      vim.keymap.set('n', '<leader>E', function()
+        require('mini.files').open(vim.uv.cwd(), true)
+      end, { desc = 'Open mini.files (cwd)' })
 
       require('mini.icons').setup()
 

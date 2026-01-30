@@ -438,6 +438,7 @@ require('lazy').setup({
         { '<leader>h', group = '[H]arpoon' },
         { '<leader>m', group = '[M]arkdown' },
         { '<leader>x', group = '[X]tras' },
+        { '<leader>9', group = '[9]9 AI' },
       },
     },
   },

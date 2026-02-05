@@ -166,7 +166,7 @@ return {
       desc = 'GitHub Pull Requests (all)',
     },
     {
-      '<leader>go',
+      '<leader>gO',
       function()
         Snacks.gitbrowse.open()
       end,
@@ -432,6 +432,13 @@ return {
         Snacks.picker.undo()
       end,
       desc = 'Undo History',
+    },
+    {
+      '<leader>sk',
+      function()
+        Snacks.picker.keymaps()
+      end,
+      desc = 'Keymaps',
     },
     {
       '<leader>xc',

@@ -9,6 +9,7 @@ return {
     local cwd = vim.uv.cwd()
     local basename = vim.fs.basename(cwd)
     _99.setup {
+      model = 'github-copilot/gpt-5.2-codex',
       logger = {
         level = _99.DEBUG,
         path = '/tmp/' .. basename .. '.99.debug',

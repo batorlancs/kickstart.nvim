@@ -58,12 +58,11 @@ return {
       local Terminal = require('toggleterm.terminal').Terminal
 
       local opencode = Terminal:new {
-        cmd = 'opencode',
-        -- dir = 'dir',
+        cmd = 'opc',
         direction = 'float',
         hidden = true,
         float_opts = {
-          border = 'curved',
+          border = 'rounded',
           width = function()
             return math.floor(vim.o.columns * 0.9)
           end,

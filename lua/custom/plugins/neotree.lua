@@ -6,6 +6,7 @@ return {
     dependencies = {
       'MunifTanjim/nui.nvim',
       'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
     },
     -- This disables or enables the plugin
     -- I'm switching over to mini.files (mini-files.lua) because neotree had
@@ -71,13 +72,13 @@ return {
             if is_neo_tree_open() then
               vim.cmd 'Neotree close'
             else
-              vim.cmd 'Neotree reveal position=float'
+              vim.cmd 'Neotree reveal position=left'
             end
           else
-            require('neo-tree.command').execute { toggle = true, dir = vim.uv.cwd(), position = 'float' }
+            require('neo-tree.command').execute { toggle = true, dir = vim.uv.cwd(), position = 'right' }
           end
         end,
-        desc = 'Toggle current file in NeoTree (float)',
+        desc = 'Toggle current file in NeoTree (right)',
       },
 
       -- {

@@ -7,7 +7,7 @@ return {
       local Terminal = require('toggleterm.terminal').Terminal
 
       local opencode = Terminal:new {
-        cmd = 'opc',
+        cmd = 'opencode --port',
         direction = 'float',
         hidden = true,
         float_opts = {

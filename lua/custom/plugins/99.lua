@@ -74,7 +74,44 @@ return {
     -- likely ill add a mode check and assert on required visual mode
     -- so just prepare for it now
     vim.keymap.set('v', '<leader>9v', function()
-      _99.visual()
+      local buf = vim.api.nvim_create_buf(false, true)
+      local width = math.floor(vim.o.columns * 0.6)
+      local height = 5
+      local win = vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,
+        height = height,
+        col = math.floor((vim.o.columns - width) / 2),
+        row = math.floor((vim.o.lines - height) / 2),
+        style = 'minimal',
+        border = 'rounded',
+        title = ' 99 Prompt ',
+        title_pos = 'center',
+      })
+
+      vim.bo[buf].buftype = 'nofile'
+      vim.bo[buf].filetype = 'markdown'
+      vim.cmd 'startinsert'
+
+      local function close()
+        if vim.api.nvim_win_is_valid(win) then
+          vim.api.nvim_win_close(win, true)
+        end
+        if vim.api.nvim_buf_is_valid(buf) then
+          vim.api.nvim_buf_delete(buf, { force = true })
+        end
+      end
+
+      local function submit()
+        local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+        close()
+        local prompt = vim.trim(table.concat(lines, '\n'))
+        _99.visual { additional_prompt = prompt }
+      end
+
+      vim.keymap.set('n', 'q', close, { buffer = buf })
+      vim.keymap.set('n', '<CR>', submit, { buffer = buf })
+      vim.keymap.set('i', '<C-CR>', submit, { buffer = buf })
     end, { desc = '99 Visual Selection Completion' })
 
     --- if you have a request you dont want to make any changes, just cancel it

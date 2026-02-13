@@ -85,7 +85,7 @@ return {
         row = math.floor((vim.o.lines - height) / 2),
         style = 'minimal',
         border = 'rounded',
-        title = ' 99 Prompt ',
+        title = ' Prompt ',
         title_pos = 'center',
       })
 

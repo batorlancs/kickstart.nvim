@@ -10,7 +10,7 @@ return {
   selection = '#333333', -- menu selection highlight (Surface1)
   base = '#1f1f1f', -- base background
   muted = '#717171', -- muted/dim text (Overlay0)
-  indent = '#2b2b2b', -- indent guides (very subtle)
+  indent = '#242424', -- indent guides (very subtle)
   indent_scope = '#3d3d3d', -- active scope indent (slightly brighter)
   separator = '#2b2b2b', -- separators
   visual = '#424242', -- visual mode selection

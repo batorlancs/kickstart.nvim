@@ -15,26 +15,18 @@ return {
     vim.api.nvim_set_hl(0, 'PrettyHoverBorder', { fg = c.popup_border_darker, bg = c.popup_bg_darker })
     vim.api.nvim_set_hl(0, 'PrettyHoverSeparator', { fg = c.separator })
 
-    -- -- Apply dim highlights to pretty_hover windows
-    -- vim.api.nvim_create_autocmd('FileType', {
-    --   pattern = 'markdown',
-    --   callback = function(ev)
-    --     local win = vim.fn.bufwinid(ev.buf)
-    --     if win ~= -1 then
-    --       local win_config = vim.api.nvim_win_get_config(win)
-    --       -- Check if it's a floating window (hover popup)
-    --       if win_config.relative ~= '' then
-    --         vim.api.nvim_set_option_value(
-    --           'winhighlight',
-    --           'Normal:PrettyHoverNormal,FloatBorder:PrettyHoverBorder',
-    --           { win = win }
-    --         )
-    --         -- Add syntax match for separator lines (box-drawing characters)
-    --         vim.fn.matchadd('PrettyHoverSeparator', '^[─━┄┅┈┉═]\\+$')
-    --       end
-    --     end
-    --   end,
-    -- })
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'markdown',
+      callback = function(ev)
+        local win = vim.fn.bufwinid(ev.buf)
+        if win ~= -1 then
+          local win_config = vim.api.nvim_win_get_config(win)
+          if win_config.relative ~= '' then
+            vim.fn.matchadd('PrettyHoverSeparator', '^[─━┄┅┈┉═]\\+$')
+          end
+        end
+      end,
+    })
   end,
   keys = {
     {

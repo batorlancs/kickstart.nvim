@@ -21,7 +21,7 @@ return {
         callback = apply_comment_hl,
       })
 
-      vim.cmd.colorscheme 'gruvbox-material'
+      -- vim.cmd.colorscheme 'gruvbox-material'
     end,
   },
 }

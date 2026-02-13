@@ -7,6 +7,8 @@ return {
     'nvim-tree/nvim-web-devicons', -- optional dependency
   },
   opts = {
-    -- configurations go here
+    theme = {
+      normal = { bg = '#121212' },
+    },
   },
 }

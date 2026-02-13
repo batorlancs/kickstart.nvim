@@ -1075,10 +1075,13 @@ require('lazy').setup({
               BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
               BlinkCmpSignatureHelp = { bg = c.popup_bg },
               BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
-              -- StatuslineDimPath = { fg = c.muted, bg = '#181825' },
-              -- StatuslineBrightFile = { fg = '#cdd6f4', bg = '#181825' },
-              -- StatuslineInactiveFile = { fg = '#6C7086', bg = '#181825' },
-              -- MiniStatuslineFilename = { fg = c.muted, bg = '#181825' },
+              StatuslineBranch = { fg = colors.subtext0, bg = colors.base },
+              StatuslineModified = { fg = colors.peach, bg = colors.mantle },
+              StatuslineDimPath = { fg = c.muted, bg = colors.mantle },
+              StatuslineBrightFile = { fg = colors.text, bg = colors.mantle },
+              StatuslineInactiveFile = { fg = colors.overlay1, bg = colors.mantle },
+              MiniStatuslineFilename = { fg = c.muted, bg = colors.mantle },
+              MiniStatuslineInactive = { fg = colors.surface0, bg = colors.mantle },
             }
           end,
           latte = function(colors)
@@ -1162,6 +1165,8 @@ require('lazy').setup({
         content = {
           active = function()
             local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 50 }
+            mode = mode:sub(1, 1)
+            local branch = vim.b.gitsigns_head
             local fullpath = vim.fn.expand '%:.'
             local dir, filename
             if fullpath == '' then
@@ -1179,12 +1184,16 @@ require('lazy').setup({
 
             local modified = vim.bo.modified and '●' or ''
 
+            local diag = MiniStatusline.section_diagnostics { trunc_width = 50, icon = '', signs = { ERROR = '!', WARN = '?', INFO = '@', HINT = '*' } }
+
             return combine_groups {
               { hl = mode_hl, strings = { mode } },
+              branch and string.format('%%#StatuslineBranch# %s ', branch) or '',
               '%<',
               { hl = 'MiniStatuslineFilename', strings = { string.format('%%#StatuslineDimPath#%s%%#StatuslineBrightFile#%s', dir, filename) } },
               '%=',
-              { hl = 'DiagnosticWarn', strings = { modified } },
+              { hl = 'StatuslineModified', strings = { modified } },
+              diag ~= '' and string.format('%%#StatuslineBranch#%s ', diag) or '',
             }
           end,
           inactive = function()

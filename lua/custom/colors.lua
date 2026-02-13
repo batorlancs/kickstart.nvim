@@ -13,4 +13,5 @@ return {
   indent = '#2b2b2b', -- indent guides (very subtle)
   indent_scope = '#3d3d3d', -- active scope indent (slightly brighter)
   separator = '#2b2b2b', -- separators
+  visual = '#424242', -- visual mode selection
 }

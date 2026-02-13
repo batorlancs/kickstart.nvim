@@ -1014,6 +1014,7 @@ require('lazy').setup({
               VertSplit = { bg = colors.base, fg = colors.surface0 },
               WinSeparator = { bg = colors.base, fg = colors.surface0 },
               LspInfoBorder = { link = 'FloatBorder' },
+              Visual = { bg = c.visual },
               YankHighlight = { bg = colors.surface2 },
 
               CmpItemMenu = { fg = colors.surface2 },

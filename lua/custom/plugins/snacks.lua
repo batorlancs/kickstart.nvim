@@ -18,7 +18,7 @@ return {
   opts = {
     ---@type table<string, snacks.win.Config>
     bufdelete = {},
-    input = {},
+    input = { enabled = true },
     terminal = {},
     explorer = { enabled = false },
     styles = {

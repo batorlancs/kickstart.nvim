@@ -899,93 +899,16 @@ require('lazy').setup({
       -- vim.cmd 'colorscheme github_dark_dimmed'
     end,
   },
-  -- {
-  --   'catppuccin/nvim',
-  --   name = 'catppuccin',
-  --   priority = 1000, -- Load before other start plugins
-  --   config = function()
-  --     local c = require 'custom.colors'
-  --     require('catppuccin').setup {
-  --       flavour = 'mocha',
-  --       no_italic = true,
-  --       no_bold = true,
-  --       -- transparency = true,
-  --       custom_highlights = function()
-  --         return {
-  --           Comment = { fg = c.comment },
-  --           ['@comment'] = { fg = c.comment },
-  --           ['@string.documentation.python'] = { fg = c.comment },
-  --           NormalFloat = { bg = c.popup_bg_darker },
-  --           FloatBorder = { fg = c.popup_border_darker, bg = c.popup_bg_darker },
-  --           BlinkCmpDoc = { bg = c.popup_bg_darker },
-  --           BlinkCmpDocBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
-  --           BlinkCmpMenu = { bg = c.popup_bg_darker },
-  --           BlinkCmpMenuSelection = { bg = c.selection },
-  --           BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
-  --           BlinkCmpSignatureHelp = { bg = c.popup_bg },
-  --           BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
-  --           StatuslineDimPath = { fg = c.muted, bg = '#181825' },
-  --           StatuslineBrightFile = { fg = '#cdd6f4', bg = '#181825' },
-  --           StatuslineInactiveFile = { fg = '#6C7086', bg = '#181825' },
-  --           MiniStatuslineFilename = { fg = c.muted, bg = '#181825' },
-  --           MiniStatuslineInactive = { fg = '#313244', bg = '#181825' },
-  --         }
-  --       end,
-  --     }
-  --
-  --     vim.cmd.colorscheme 'catppuccin'
-  --   end,
-  -- },
-  {
-    'oskarnurm/koda.nvim',
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-    config = function()
-      -- require("koda").setup({ transparent = true })
-    end,
-  },
-
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-    lazy = false,
-    priority = 1000,
+    priority = 1000, -- Load before other start plugins
     config = function()
       local c = require 'custom.colors'
       require('catppuccin').setup {
-        transparent_background = true,
-        show_end_of_buffer = false,
-        integration_default = false,
-        color_overrides = {
-          mocha = {
-            rosewater = '#f5e0dc',
-            flamingo = '#f2cdcd',
-            pink = '#f5c2e7',
-            mauve = '#cba6f7',
-            red = '#f38ba8',
-            maroon = '#eba0ac',
-            peach = '#fab387',
-            yellow = '#f9e2af',
-            green = '#a6e3a1',
-            teal = '#94e2d5',
-            sky = '#89dceb',
-            sapphire = '#74c7ec',
-            blue = '#89b4fa',
-            lavender = '#c6cbeb',
-            text = '#e6e9f4',
-            subtext1 = '#d5d8e2',
-            subtext0 = '#b7bac8',
-            overlay2 = '#a8aab3',
-            overlay1 = '#91939c',
-            overlay0 = '#7e7f86',
-            surface2 = '#666666',
-            surface1 = '#545454',
-            surface0 = '#383838',
-            base = '#292929',
-            mantle = '#212121',
-            crust = '#171717',
-          },
-        },
+        flavour = 'mocha',
+        no_italic = true,
+        no_bold = true,
         integrations = {
           barbecue = { dim_dirname = true, bold_basename = true, dim_context = false, alt_background = false },
           cmp = true,
@@ -1002,103 +925,209 @@ require('lazy').setup({
           vimwiki = true,
           which_key = true,
         },
-        highlight_overrides = {
-          all = function(colors)
-            return {
-              -- NormalFloat = { bg = colors.base },
-              Pmenu = { bg = colors.mantle, fg = '' },
-              PmenuSel = { bg = colors.surface0, fg = '' },
-              CursorLineNr = { fg = colors.text },
-              LineNr = { fg = colors.surface1 },
-              -- FloatBorder = { bg = colors.base, fg = colors.surface0 },
-              VertSplit = { bg = colors.base, fg = colors.surface0 },
-              WinSeparator = { bg = colors.base, fg = colors.surface0 },
-              LspInfoBorder = { link = 'FloatBorder' },
-              Visual = { bg = c.visual },
-              YankHighlight = { bg = colors.surface2 },
+        custom_highlights = function(colors)
+          return {
+            GitSignsChange = { fg = colors.peach },
+            --           Comment = { fg = c.comment },
+            --           ['@comment'] = { fg = c.comment },
+            --           ['@string.documentation.python'] = { fg = c.comment },
+            --           NormalFloat = { bg = c.popup_bg_darker },
+            --           FloatBorder = { fg = c.popup_border_darker, bg = c.popup_bg_darker },
+            --           BlinkCmpDoc = { bg = c.popup_bg_darker },
+            --           BlinkCmpDocBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+            --           BlinkCmpMenu = { bg = c.popup_bg_darker },
+            --           BlinkCmpMenuSelection = { bg = c.selection },
+            --           BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+            --           BlinkCmpSignatureHelp = { bg = c.popup_bg },
+            --           BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
+            StatuslineDimPath = { fg = c.muted, bg = '#181825' },
+            StatuslineBrightFile = { fg = '#cdd6f4', bg = '#181825' },
+            StatuslineInactiveFile = { fg = '#6C7086', bg = '#181825' },
+            MiniStatuslineFilename = { fg = c.muted, bg = '#181825' },
+            MiniStatuslineInactive = { fg = '#313244', bg = '#181825' },
 
-              CmpItemMenu = { fg = colors.surface2 },
-
-              GitSignsChange = { fg = colors.peach },
-
-              NeoTreeDirectoryIcon = { fg = colors.subtext1 },
-              NeoTreeDirectoryName = { fg = colors.subtext1 },
-              NeoTreeFloatBorder = { link = 'TelescopeResultsBorder' },
-              NeoTreeGitConflict = { fg = colors.red },
-              NeoTreeGitDeleted = { fg = colors.red },
-              NeoTreeGitIgnored = { fg = colors.overlay0 },
-              NeoTreeGitModified = { fg = colors.peach },
-              NeoTreeGitStaged = { fg = colors.green },
-              NeoTreeGitUnstaged = { fg = colors.red },
-              NeoTreeGitUntracked = { fg = colors.green },
-              NeoTreeIndent = { link = 'IblIndent' },
-              NeoTreeNormal = { bg = colors.mantle },
-              NeoTreeNormalNC = { bg = colors.mantle },
-              NeoTreeRootName = { fg = colors.subtext1, style = { 'bold' } },
-              NeoTreeTabActive = { fg = colors.text, bg = colors.mantle },
-              NeoTreeTabInactive = { fg = colors.surface2, bg = colors.crust },
-              NeoTreeTabSeparatorActive = { fg = colors.mantle, bg = colors.mantle },
-              NeoTreeTabSeparatorInactive = { fg = colors.crust, bg = colors.crust },
-              NeoTreeWinSeparator = { fg = colors.base, bg = colors.base },
-
-              TelescopePreviewBorder = { bg = colors.crust, fg = colors.crust },
-              TelescopePreviewNormal = { bg = colors.crust },
-              TelescopePreviewTitle = { fg = colors.crust, bg = colors.crust },
-              TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
-              TelescopePromptCounter = { fg = colors.mauve, style = { 'bold' } },
-              TelescopePromptNormal = { bg = colors.surface0 },
-              TelescopePromptPrefix = { bg = colors.surface0 },
-              TelescopePromptTitle = { fg = colors.surface0, bg = colors.surface0 },
-              TelescopeResultsBorder = { bg = colors.mantle, fg = colors.mantle },
-              TelescopeResultsNormal = { bg = colors.mantle },
-              TelescopeResultsTitle = { fg = colors.mantle, bg = colors.mantle },
-              TelescopeSelection = { bg = colors.surface0 },
-
-              WhichKeyFloat = { bg = colors.mantle },
-
-              IblIndent = { fg = colors.surface0 },
-              IblScope = { fg = colors.overlay0 },
-
-              MasonNormal = { bg = colors.mantle },
-              MasonMutedBlock = { link = 'CursorLine' },
-
-              LazyNormal = { bg = colors.mantle },
-
-              Comment = { fg = c.comment },
-              ['@comment'] = { fg = c.comment },
-              ['@string.documentation.python'] = { fg = c.comment },
-              NormalFloat = { bg = c.popup_bg_darker },
-              FloatBorder = { fg = c.popup_border_darker, bg = c.popup_bg_darker },
-              BlinkCmpDoc = { bg = c.popup_bg_darker },
-              BlinkCmpDocBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
-              BlinkCmpMenu = { bg = c.popup_bg_darker },
-              BlinkCmpMenuSelection = { bg = c.selection },
-              BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
-              BlinkCmpSignatureHelp = { bg = c.popup_bg },
-              BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
-              StatuslineBranch = { fg = colors.subtext0, bg = colors.base },
-              StatuslineModified = { fg = colors.peach, bg = colors.mantle },
-              StatuslineDimPath = { fg = c.muted, bg = colors.mantle },
-              StatuslineBrightFile = { fg = colors.text, bg = colors.mantle },
-              StatuslineInactiveFile = { fg = colors.overlay1, bg = colors.mantle },
-              MiniStatuslineFilename = { fg = c.muted, bg = colors.mantle },
-              MiniStatuslineInactive = { fg = colors.surface0, bg = colors.mantle },
-            }
-          end,
-          latte = function(colors)
-            return {
-              LineNr = { fg = colors.surface1 },
-
-              IblIndent = { fg = colors.mantle },
-              IblScope = { fg = colors.surface1 },
-            }
-          end,
-        },
+            Comment = { fg = c.comment },
+            ['@comment'] = { fg = c.comment },
+            ['@string.documentation.python'] = { fg = c.comment },
+            NormalFloat = { bg = c.popup_bg_darker },
+            FloatBorder = { fg = c.popup_border_darker, bg = c.popup_bg_darker },
+            BlinkCmpDoc = { bg = c.popup_bg_darker },
+            BlinkCmpDocBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+            BlinkCmpMenu = { bg = c.popup_bg_darker },
+            BlinkCmpMenuSelection = { bg = c.selection },
+            BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+            BlinkCmpSignatureHelp = { bg = c.popup_bg },
+            BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
+          }
+        end,
       }
 
-      vim.api.nvim_command 'colorscheme catppuccin-mocha'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
+  {
+    'oskarnurm/koda.nvim',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      -- require("koda").setup({ transparent = true })
+    end,
+  },
+
+  -- {
+  --   'catppuccin/nvim',
+  --   name = 'catppuccin',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     local c = require 'custom.colors'
+  --     require('catppuccin').setup {
+  --       -- transparent_background = true,
+  --       show_end_of_buffer = false,
+  --       integration_default = false,
+  --       color_overrides = {
+  --         -- mocha = {
+  --         --   rosewater = '#f5e0dc',
+  --         --   flamingo = '#f2cdcd',
+  --         --   pink = '#f5c2e7',
+  --         --   mauve = '#cba6f7',
+  --         --   red = '#f38ba8',
+  --         --   maroon = '#eba0ac',
+  --         --   peach = '#fab387',
+  --         --   yellow = '#f9e2af',
+  --         --   green = '#a6e3a1',
+  --         --   teal = '#94e2d5',
+  --         --   sky = '#89dceb',
+  --         --   sapphire = '#74c7ec',
+  --         --   blue = '#89b4fa',
+  --         --   lavender = '#c6cbeb',
+  --         --   text = '#e6e9f4',
+  --         --   subtext1 = '#d5d8e2',
+  --         --   subtext0 = '#b7bac8',
+  --         --   overlay2 = '#a8aab3',
+  --         --   overlay1 = '#91939c',
+  --         --   overlay0 = '#7e7f86',
+  --         --   surface2 = '#666666',
+  --         --   surface1 = '#545454',
+  --         --   surface0 = '#383838',
+  --         --   base = '#292929',
+  --         --   mantle = '#212121',
+  --         --   crust = '#171717',
+  --         -- },
+  --       },
+  --       integrations = {
+  --         barbecue = { dim_dirname = true, bold_basename = true, dim_context = false, alt_background = false },
+  --         cmp = true,
+  --         gitsigns = true,
+  --         illuminate = { enabled = true },
+  --         markdown = true,
+  --         mason = true,
+  --         native_lsp = { enabled = true, inlay_hints = { background = true } },
+  --         neogit = true,
+  --         neotree = true,
+  --         semantic_tokens = true,
+  --         treesitter = true,
+  --         treesitter_context = true,
+  --         vimwiki = true,
+  --         which_key = true,
+  --       },
+  --       highlight_overrides = {
+  --         all = function(colors)
+  --           return {
+  --             -- NormalFloat = { bg = colors.base },
+  --             Pmenu = { bg = colors.mantle, fg = '' },
+  --             PmenuSel = { bg = colors.surface0, fg = '' },
+  --             CursorLineNr = { fg = colors.text },
+  --             LineNr = { fg = colors.surface1 },
+  --             -- FloatBorder = { bg = colors.base, fg = colors.surface0 },
+  --             -- VertSplit = { bg = colors.base, fg = colors.surface0 },
+  --             WinSeparator = { bg = colors.base, fg = colors.surface0 },
+  --             LspInfoBorder = { link = 'FloatBorder' },
+  --             Visual = { bg = c.visual },
+  --             YankHighlight = { bg = colors.surface2 },
+  --
+  --             CmpItemMenu = { fg = colors.surface2 },
+  --
+  --             GitSignsChange = { fg = colors.peach },
+  --
+  --             NeoTreeDirectoryIcon = { fg = colors.subtext1 },
+  --             NeoTreeDirectoryName = { fg = colors.subtext1 },
+  --             NeoTreeFloatBorder = { link = 'TelescopeResultsBorder' },
+  --             NeoTreeGitConflict = { fg = colors.red },
+  --             NeoTreeGitDeleted = { fg = colors.red },
+  --             NeoTreeGitIgnored = { fg = colors.overlay0 },
+  --             NeoTreeGitModified = { fg = colors.peach },
+  --             NeoTreeGitStaged = { fg = colors.green },
+  --             NeoTreeGitUnstaged = { fg = colors.red },
+  --             NeoTreeGitUntracked = { fg = colors.green },
+  --             NeoTreeIndent = { link = 'IblIndent' },
+  --             NeoTreeNormal = { bg = colors.mantle },
+  --             NeoTreeNormalNC = { bg = colors.mantle },
+  --             NeoTreeRootName = { fg = colors.subtext1, style = { 'bold' } },
+  --             NeoTreeTabActive = { fg = colors.text, bg = colors.mantle },
+  --             NeoTreeTabInactive = { fg = colors.surface2, bg = colors.crust },
+  --             NeoTreeTabSeparatorActive = { fg = colors.mantle, bg = colors.mantle },
+  --             NeoTreeTabSeparatorInactive = { fg = colors.crust, bg = colors.crust },
+  --             NeoTreeWinSeparator = { fg = colors.base, bg = colors.base },
+  --
+  --             TelescopePreviewBorder = { bg = colors.crust, fg = colors.crust },
+  --             TelescopePreviewNormal = { bg = colors.crust },
+  --             TelescopePreviewTitle = { fg = colors.crust, bg = colors.crust },
+  --             TelescopePromptBorder = { bg = colors.surface0, fg = colors.surface0 },
+  --             TelescopePromptCounter = { fg = colors.mauve, style = { 'bold' } },
+  --             TelescopePromptNormal = { bg = colors.surface0 },
+  --             TelescopePromptPrefix = { bg = colors.surface0 },
+  --             TelescopePromptTitle = { fg = colors.surface0, bg = colors.surface0 },
+  --             TelescopeResultsBorder = { bg = colors.mantle, fg = colors.mantle },
+  --             TelescopeResultsNormal = { bg = colors.mantle },
+  --             TelescopeResultsTitle = { fg = colors.mantle, bg = colors.mantle },
+  --             TelescopeSelection = { bg = colors.surface0 },
+  --
+  --             WhichKeyFloat = { bg = colors.mantle },
+  --
+  --             IblIndent = { fg = colors.surface0 },
+  --             IblScope = { fg = colors.overlay0 },
+  --
+  --             MasonNormal = { bg = colors.mantle },
+  --             MasonMutedBlock = { link = 'CursorLine' },
+  --
+  --             LazyNormal = { bg = colors.mantle },
+  --
+  --             Comment = { fg = c.comment },
+  --             ['@comment'] = { fg = c.comment },
+  --             ['@string.documentation.python'] = { fg = c.comment },
+  --             NormalFloat = { bg = c.popup_bg_darker },
+  --             FloatBorder = { fg = c.popup_border_darker, bg = c.popup_bg_darker },
+  --             BlinkCmpDoc = { bg = c.popup_bg_darker },
+  --             BlinkCmpDocBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+  --             BlinkCmpMenu = { bg = c.popup_bg_darker },
+  --             BlinkCmpMenuSelection = { bg = c.selection },
+  --             BlinkCmpMenuBorder = { bg = c.popup_bg_darker, fg = c.popup_border_darker },
+  --             BlinkCmpSignatureHelp = { bg = c.popup_bg },
+  --             BlinkCmpSignatureHelpBorder = { bg = c.popup_bg, fg = c.popup_border },
+  --             StatuslineBranch = { fg = colors.subtext0, bg = colors.base },
+  --             StatuslineModified = { fg = colors.peach, bg = colors.mantle },
+  --             StatuslineDimPath = { fg = c.muted, bg = colors.mantle },
+  --             StatuslineBrightFile = { fg = colors.text, bg = colors.mantle },
+  --             StatuslineInactiveFile = { fg = colors.overlay1, bg = colors.mantle },
+  --             MiniStatuslineFilename = { fg = c.muted, bg = colors.mantle },
+  --             MiniStatuslineInactive = { fg = colors.surface0, bg = colors.mantle },
+  --           }
+  --         end,
+  --         latte = function(colors)
+  --           return {
+  --             LineNr = { fg = colors.surface1 },
+  --
+  --             IblIndent = { fg = colors.mantle },
+  --             IblScope = { fg = colors.surface1 },
+  --           }
+  --         end,
+  --       },
+  --     }
+  --
+  --     vim.api.nvim_command 'colorscheme catppuccin-mocha'
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -1113,12 +1142,12 @@ require('lazy').setup({
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
-      require('mini.cmdline').setup {
-        autocomplete = {
-          enable = true,
-          delay = 250,
-        },
-      }
+      -- require('mini.cmdline').setup {
+      --   autocomplete = {
+      --     enable = true,
+      --     delay = 250,
+      --   },
+      -- }
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --

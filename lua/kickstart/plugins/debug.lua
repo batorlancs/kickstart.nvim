@@ -64,7 +64,11 @@ return {
     {
       '<leader>Q',
       function()
-        require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+        vim.ui.input({ prompt = 'Breakpoint condition: ' }, function(condition)
+          if condition then
+            require('dap').set_breakpoint(condition)
+          end
+        end)
       end,
       desc = 'Debug: Set Breakpoint',
     },

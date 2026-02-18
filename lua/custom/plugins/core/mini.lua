@@ -7,96 +7,96 @@ return {
 
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     require('mini.surround').setup()
-
-    -- Simple and easy statusline
-    local statusline = require 'mini.statusline'
-
-    local combine_groups = function(groups)
-      local parts = vim.tbl_map(function(s)
-        if type(s) == 'string' then
-          return s
-        end
-        if type(s) ~= 'table' then
-          return ''
-        end
-
-        local string_arr = vim.tbl_filter(function(x)
-          return type(x) == 'string' and x ~= ''
-        end, s.strings or {})
-        local str = table.concat(string_arr, ' ')
-
-        if s.hl == nil then
-          return ' ' .. str .. ' '
-        end
-
-        if str:len() == 0 then
-          return '%#' .. s.hl .. '#'
-        end
-
-        return string.format('%%#%s# %s ', s.hl, str)
-      end, groups)
-
-      return table.concat(parts, '')
-    end
-
-    statusline.setup {
-      use_icons = vim.g.have_nerd_font,
-      set_vim_settings = true,
-      content = {
-        active = function()
-          local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 50 }
-          mode = mode:sub(1, 1)
-          local branch = vim.b.gitsigns_head
-          local fullpath = vim.fn.expand '%:.'
-          local dir, filename
-          if fullpath == '' then
-            dir = ''
-            filename = '[No Name]'
-          else
-            dir = vim.fn.fnamemodify(fullpath, ':h')
-            filename = vim.fn.fnamemodify(fullpath, ':t')
-            if dir ~= '.' then
-              dir = dir .. '/'
-            else
-              dir = ''
-            end
-          end
-
-          local modified = vim.bo.modified and '●' or ''
-
-          local diag = MiniStatusline.section_diagnostics { trunc_width = 50, icon = '', signs = { ERROR = '!', WARN = '?', INFO = '@', HINT = '*' } }
-
-          return combine_groups {
-            { hl = mode_hl, strings = { mode } },
-            branch and string.format('%%#StatuslineBranch# %s ', branch) or '',
-            '%<',
-            { hl = 'MiniStatuslineFilename', strings = { string.format('%%#StatuslineDimPath#%s%%#StatuslineBrightFile#%s', dir, filename) } },
-            '%=',
-            { hl = 'StatuslineModified', strings = { modified } },
-            diag ~= '' and string.format('%%#StatuslineBranch#%s ', diag) or '',
-          }
-        end,
-        inactive = function()
-          local fullpath = vim.fn.expand '%:.'
-          local dir, filename
-          if fullpath == '' then
-            dir = ''
-            filename = '[No Name]'
-          else
-            dir = vim.fn.fnamemodify(fullpath, ':h')
-            filename = vim.fn.fnamemodify(fullpath, ':t')
-            if dir ~= '.' then
-              dir = dir .. '/'
-            else
-              dir = ''
-            end
-          end
-          return combine_groups {
-            { hl = 'MiniStatuslineInactive', strings = { string.format('%%#StatuslineDimPath#%s%%#StatuslineInactiveFile#%s', dir, filename) } },
-          }
-        end,
-      },
-    }
+    --
+    -- -- Simple and easy statusline
+    -- local statusline = require 'mini.statusline'
+    --
+    -- local combine_groups = function(groups)
+    --   local parts = vim.tbl_map(function(s)
+    --     if type(s) == 'string' then
+    --       return s
+    --     end
+    --     if type(s) ~= 'table' then
+    --       return ''
+    --     end
+    --
+    --     local string_arr = vim.tbl_filter(function(x)
+    --       return type(x) == 'string' and x ~= ''
+    --     end, s.strings or {})
+    --     local str = table.concat(string_arr, ' ')
+    --
+    --     if s.hl == nil then
+    --       return ' ' .. str .. ' '
+    --     end
+    --
+    --     if str:len() == 0 then
+    --       return '%#' .. s.hl .. '#'
+    --     end
+    --
+    --     return string.format('%%#%s# %s ', s.hl, str)
+    --   end, groups)
+    --
+    --   return table.concat(parts, '')
+    -- end
+    --
+    -- statusline.setup {
+    --   use_icons = vim.g.have_nerd_font,
+    --   set_vim_settings = true,
+    --   content = {
+    --     active = function()
+    --       local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 50 }
+    --       mode = mode:sub(1, 1)
+    --       local branch = vim.b.gitsigns_head
+    --       local fullpath = vim.fn.expand '%:.'
+    --       local dir, filename
+    --       if fullpath == '' then
+    --         dir = ''
+    --         filename = '[No Name]'
+    --       else
+    --         dir = vim.fn.fnamemodify(fullpath, ':h')
+    --         filename = vim.fn.fnamemodify(fullpath, ':t')
+    --         if dir ~= '.' then
+    --           dir = dir .. '/'
+    --         else
+    --           dir = ''
+    --         end
+    --       end
+    --
+    --       local modified = vim.bo.modified and '●' or ''
+    --
+    --       local diag = MiniStatusline.section_diagnostics { trunc_width = 50, icon = '', signs = { ERROR = '!', WARN = '?', INFO = '@', HINT = '*' } }
+    --
+    --       return combine_groups {
+    --         { hl = mode_hl, strings = { mode } },
+    --         branch and string.format('%%#StatuslineBranch# %s ', branch) or '',
+    --         '%<',
+    --         { hl = 'MiniStatuslineFilename', strings = { string.format('%%#StatuslineDimPath#%s%%#StatuslineBrightFile#%s', dir, filename) } },
+    --         '%=',
+    --         { hl = 'StatuslineModified', strings = { modified } },
+    --         diag ~= '' and string.format('%%#StatuslineBranch#%s ', diag) or '',
+    --       }
+    --     end,
+    --     inactive = function()
+    --       local fullpath = vim.fn.expand '%:.'
+    --       local dir, filename
+    --       if fullpath == '' then
+    --         dir = ''
+    --         filename = '[No Name]'
+    --       else
+    --         dir = vim.fn.fnamemodify(fullpath, ':h')
+    --         filename = vim.fn.fnamemodify(fullpath, ':t')
+    --         if dir ~= '.' then
+    --           dir = dir .. '/'
+    --         else
+    --           dir = ''
+    --         end
+    --       end
+    --       return combine_groups {
+    --         { hl = 'MiniStatuslineInactive', strings = { string.format('%%#StatuslineDimPath#%s%%#StatuslineInactiveFile#%s', dir, filename) } },
+    --       }
+    --     end,
+    --   },
+    -- }
 
     require('mini.files').setup {
       mappings = {

@@ -40,27 +40,32 @@ end, { desc = '[F]ile [D]elete', silent = true })
 -- Rename current file (prompts for new name)
 vim.keymap.set('n', '<leader>fr', function()
   local old_path = vim.fn.expand '%:p'
-  local new_path = vim.fn.input('Rename to: ', old_path, 'file')
 
-  if new_path == '' or new_path == old_path then
-    return
-  end
+  vim.ui.input({
+    prompt = 'Rename to: ',
+    default = old_path,
+    completion = 'file',
+  }, function(new_path)
+    if not new_path or new_path == '' or new_path == old_path then
+      return
+    end
 
-  if vim.loop.fs_stat(new_path) then
-    vim.notify('File already exists!', vim.log.levels.ERROR)
-    return
-  end
+    if vim.loop.fs_stat(new_path) then
+      vim.notify('File already exists!', vim.log.levels.ERROR)
+      return
+    end
 
-  local ok, err = os.rename(old_path, new_path)
-  if not ok then
-    vim.notify('Rename failed: ' .. err, vim.log.levels.ERROR)
-    return
-  end
+    local ok, err = os.rename(old_path, new_path)
+    if not ok then
+      vim.notify('Rename failed: ' .. err, vim.log.levels.ERROR)
+      return
+    end
 
-  vim.api.nvim_buf_set_name(0, new_path)
-  vim.cmd 'edit'
+    vim.api.nvim_buf_set_name(0, new_path)
+    vim.cmd 'edit'
 
-  vim.notify('Renamed → ' .. vim.fn.fnamemodify(new_path, ':t'), vim.log.levels.INFO)
+    vim.notify('Renamed → ' .. vim.fn.fnamemodify(new_path, ':t'), vim.log.levels.INFO)
+  end)
 end, { desc = '[F]ile [R]ename', silent = true })
 
 -- [[ Install `lazy.nvim` plugin manager ]]

@@ -1,0 +1,327 @@
+-- lazy.nvim
+return {
+  'folke/noice.nvim',
+  event = 'VeryLazy',
+  opts = {
+    -- add any options here
+  },
+  dependencies = {
+    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+    'MunifTanjim/nui.nvim',
+    -- OPTIONAL:
+    --   `nvim-notify` is only needed, if you want to use the notification view.
+    --   If not available, we use `mini` as the fallback
+    'rcarriga/nvim-notify',
+  },
+}
+
+-- return {
+--   'folke/noice.nvim',
+--   event = 'VeryLazy',
+--   config = function(_, opts)
+--     -- Set up highlight groups with custom colors
+--     vim.api.nvim_set_hl(0, 'NoicePopupNormal', { bg = colors.popup_bg })
+--     vim.api.nvim_set_hl(0, 'NoicePopupBorder', { fg = colors.popup_border, bg = colors.popup_bg })
+--     vim.api.nvim_set_hl(0, 'NoicePopupmenuNormal', { bg = colors.popup_bg })
+--     vim.api.nvim_set_hl(0, 'NoicePopupmenuBorder', { fg = colors.popup_border, bg = colors.popup_bg })
+--     vim.api.nvim_set_hl(0, 'NoicePopupmenuSel', { bg = colors.selection, fg = 'NONE' })
+--     vim.api.nvim_set_hl(0, 'NoiceCmdlineNormal', { bg = colors.popup_bg })
+--     vim.api.nvim_set_hl(0, 'NoiceCmdlineBorder', { fg = colors.popup_border, bg = colors.popup_bg })
+--     vim.api.nvim_set_hl(0, 'NoiceSplitNormal', { bg = colors.base })
+--     vim.api.nvim_set_hl(0, 'NoiceSplitBorder', { fg = colors.border, bg = colors.base })
+--     vim.api.nvim_set_hl(0, 'NoiceMiniNormal', { bg = colors.base })
+--     vim.api.nvim_set_hl(0, 'NoiceHoverNormal', { bg = colors.popup_bg })
+--     vim.api.nvim_set_hl(0, 'NoiceHoverBorder', { fg = colors.popup_border, bg = colors.popup_bg })
+--
+--     require('noice').setup(opts)
+--   end,
+--   opts = {
+--     cmdline = {
+--       enabled = true,
+--       view = 'cmdline_popup',
+--       opts = {
+--         win_options = {
+--           winhighlight = {
+--             Normal = 'NoiceCmdlineNormal',
+--             FloatBorder = 'NoiceCmdlineBorder',
+--           },
+--         },
+--       },
+--     },
+--     messages = {
+--       enabled = true,
+--       view = 'notify',
+--       view_error = 'notify',
+--       view_warn = 'notify',
+--       view_history = 'messages',
+--       view_search = 'virtualtext',
+--     },
+--     popupmenu = {
+--       enabled = true,
+--       backend = 'nui',
+--       kind_icons = {},
+--     },
+--     redirect = {
+--       view = 'popup',
+--       filter = { event = 'msg_show' },
+--     },
+--     commands = {
+--       history = {
+--         view = 'split',
+--         opts = { enter = true, format = 'details' },
+--         filter = {
+--           any = {
+--             { event = 'notify' },
+--             { error = true },
+--             { warning = true },
+--             { event = 'msg_show', kind = { '' } },
+--             { event = 'lsp', kind = 'message' },
+--           },
+--         },
+--       },
+--       last = {
+--         view = 'popup',
+--         opts = { enter = true, format = 'details' },
+--         filter = {
+--           any = {
+--             { event = 'notify' },
+--             { error = true },
+--             { warning = true },
+--             { event = 'msg_show', kind = { '' } },
+--             { event = 'lsp', kind = 'message' },
+--           },
+--         },
+--         filter_opts = { count = 1 },
+--       },
+--       errors = {
+--         view = 'popup',
+--         opts = { enter = true, format = 'details' },
+--         filter = { error = true },
+--         filter_opts = { reverse = true },
+--       },
+--     },
+--     notify = {
+--       enabled = true,
+--       view = 'notify',
+--     },
+--     lsp = {
+--       progress = {
+--         enabled = true,
+--         format = 'lsp_progress',
+--         format_done = 'lsp_progress_done',
+--         throttle = 1000 / 30,
+--         view = 'mini',
+--       },
+--       override = {
+--         ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+--         ['vim.lsp.util.stylize_markdown'] = true,
+--         ['cmp.entry.get_documentation'] = true,
+--       },
+--       hover = {
+--         enabled = true,
+--         silent = false,
+--         view = nil,
+--         opts = {},
+--       },
+--       signature = {
+--         enabled = true,
+--         auto_open = {
+--           enabled = true,
+--           trigger = true,
+--           luasnip = true,
+--           throttle = 50,
+--         },
+--         view = nil,
+--         opts = {},
+--       },
+--       message = {
+--         enabled = true,
+--         view = 'notify',
+--         opts = {},
+--       },
+--       documentation = {
+--         view = 'hover',
+--         opts = {
+--           lang = 'markdown',
+--           replace = true,
+--           render = 'plain',
+--           format = { '{message}' },
+--           win_options = {
+--             concealcursor = 'n',
+--             conceallevel = 3,
+--             winhighlight = {
+--               Normal = 'NoiceHoverNormal',
+--               FloatBorder = 'NoiceHoverBorder',
+--             },
+--           },
+--         },
+--       },
+--     },
+--     markdown = {
+--       hover = {
+--         ['|(%S-)|'] = vim.cmd.help,
+--         ['%[.-%]%((%S-)%)'] = require('noice.util').open,
+--       },
+--       highlights = {
+--         ['|%S-|'] = '@text.reference',
+--         ['@%S+'] = '@parameter',
+--         ['^%s*(Parameters:)'] = '@text.title',
+--         ['^%s*(Return:)'] = '@text.title',
+--         ['^%s*(See also:)'] = '@text.title',
+--         ['{%S-}'] = '@parameter',
+--       },
+--     },
+--     health = {
+--       checker = true,
+--     },
+--     smart_move = {
+--       enabled = true,
+--       excluded_filetypes = { 'cmp_menu', 'cmp_docs', 'notify' },
+--     },
+--     opts = {
+--       -- add any options here
+--     },
+--     views = {
+--       cmdline_popup = {
+--         position = {
+--           row = '10%',
+--           col = '50%',
+--         },
+--         size = {
+--           width = 60,
+--           height = 'auto',
+--         },
+--         win_options = {
+--           winhighlight = {
+--             Normal = 'NoiceCmdlineNormal',
+--             FloatBorder = 'NoiceCmdlineBorder',
+--           },
+--         },
+--         border = {
+--           style = 'rounded',
+--           padding = { 0, 1 },
+--         },
+--         filter_options = {},
+--         win_options_override = function(win_options)
+--           win_options.winhighlight = {
+--             Normal = 'NoiceCmdlineNormal',
+--             FloatBorder = 'NoiceCmdlineBorder',
+--           }
+--           return win_options
+--         end,
+--       },
+--       popupmenu = {
+--         relative = 'editor',
+--         position = {
+--           row = '10%',
+--           col = '50%',
+--         },
+--         size = {
+--           width = 60,
+--           height = 10,
+--         },
+--         border = {
+--           style = 'rounded',
+--           padding = { 0, 1 },
+--         },
+--         win_options = {
+--           winhighlight = {
+--             Normal = 'NoicePopupmenuNormal',
+--             FloatBorder = 'NoicePopupmenuBorder',
+--             CursorLine = 'NoicePopupmenuSel',
+--             PmenuSel = 'NoicePopupmenuSel',
+--             Pmenu = 'NoicePopupmenuNormal',
+--             PmenuSbar = 'NoicePopupmenuNormal',
+--             PmenuThumb = 'NoicePopupmenuSel',
+--           },
+--         },
+--       },
+--       notify = {
+--         view = 'notify',
+--         replace = true,
+--         merge = false,
+--       },
+--       mini = {
+--         position = {
+--           row = -2,
+--           col = '100%',
+--         },
+--         size = {
+--           width = 'auto',
+--           height = 'auto',
+--         },
+--         border = {
+--           style = 'none',
+--         },
+--         win_options = {
+--           winblend = 100,
+--           winhighlight = {
+--             Normal = 'NoiceMiniNormal',
+--             FloatBorder = 'NoicePopupBorder',
+--           },
+--         },
+--       },
+--       split = {
+--         enter = true,
+--         relative = 'editor',
+--         position = 'bottom',
+--         size = '20%',
+--         win_options = {
+--           wrap = true,
+--           winhighlight = {
+--             Normal = 'NoiceSplitNormal',
+--             FloatBorder = 'NoiceSplitBorder',
+--           },
+--         },
+--       },
+--       vsplit = {
+--         enter = true,
+--         relative = 'editor',
+--         position = 'right',
+--         size = '50%',
+--         win_options = {
+--           wrap = true,
+--           winhighlight = {
+--             Normal = 'NoiceSplitNormal',
+--             FloatBorder = 'NoiceSplitBorder',
+--           },
+--         },
+--       },
+--       hover = {
+--         position = {
+--           row = 2,
+--           col = 2,
+--         },
+--         size = {
+--           width = 'auto',
+--           height = 'auto',
+--           max_height = 20,
+--           max_width = 80,
+--         },
+--         border = {
+--           style = 'rounded',
+--           padding = { 0, 1 },
+--         },
+--         win_options = {
+--           wrap = true,
+--           linebreak = true,
+--           winhighlight = {
+--             Normal = 'NoiceHoverNormal',
+--             FloatBorder = 'NoiceHoverBorder',
+--           },
+--         },
+--       },
+--     },
+--     presets = {
+--       bottom_search = false,
+--       command_palette = true,
+--       long_message_to_split = true,
+--       inc_rename = true,
+--       lsp_doc_border = true,
+--     },
+--   },
+--   dependencies = {
+--     'MunifTanjim/nui.nvim',
+--     'rcarriga/nvim-notify',
+--   },
+-- }

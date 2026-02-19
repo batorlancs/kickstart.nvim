@@ -48,22 +48,6 @@ return {
         flavour = 'mocha',
         no_italic = true,
         no_bold = true,
-        integrations = {
-          barbecue = { dim_dirname = true, bold_basename = true, dim_context = false, alt_background = false },
-          cmp = true,
-          gitsigns = true,
-          illuminate = { enabled = true },
-          markdown = true,
-          mason = true,
-          native_lsp = { enabled = true, inlay_hints = { background = true } },
-          neogit = true,
-          neotree = true,
-          semantic_tokens = true,
-          treesitter = true,
-          treesitter_context = true,
-          vimwiki = true,
-          which_key = true,
-        },
         custom_highlights = function(colors)
           return {
             GitSignsChange = { fg = colors.peach },
